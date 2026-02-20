@@ -21,10 +21,18 @@ import {
 } from "../components/ui/form";
 import { useForm } from "react-hook-form";
 import { Input } from "../components/ui/input";
+import { SignupSchema, SingupType } from "../Schemas/Signup";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function Singup() {
   const routes = useRouter();
-  const form = useForm();
+  const METHODS = useForm<SingupType>({
+    resolver: zodResolver(SignupSchema),
+    defaultValues: {
+      email: "",
+    },
+  });
+
   const handlesubmitting = () => {};
 
   return (
@@ -60,13 +68,13 @@ export default function Singup() {
           </CardHeader>
 
           <CardContent>
-            <Form {...form}>
+            <Form {...METHODS}>
               <form
-                onSubmit={form.handleSubmit(handlesubmitting)}
+                onSubmit={METHODS.handleSubmit(handlesubmitting)}
                 className="space-y-4"
               >
                 <FormField
-                  control={form.control}
+                  control={METHODS.control}
                   name="email"
                   render={({ field }) => (
                     <FormItem>
@@ -85,7 +93,7 @@ export default function Singup() {
                 />
 
                 <FormField
-                  control={form.control}
+                  control={METHODS.control}
                   name="name"
                   render={({ field }) => (
                     <FormItem>
@@ -103,7 +111,7 @@ export default function Singup() {
                 />
 
                 <FormField
-                  control={form.control}
+                  control={METHODS.control}
                   name="password"
                   render={({ field }) => (
                     <FormItem>
@@ -122,7 +130,7 @@ export default function Singup() {
                 />
 
                 <FormField
-                  control={form.control}
+                  control={METHODS.control}
                   name="confirmPassword"
                   render={({ field }) => (
                     <FormItem>

@@ -21,4 +21,4 @@ export const SignupSchema = z.object({
     .regex(/^[a-zA-Z0-9]+$/, "Password must only contain letters and numbers"),
 });
 
-export type SIGNupSchema = z.infer<typeof SignupSchema>;
+export type SingupType = z.infer<typeof SignupSchema>;
