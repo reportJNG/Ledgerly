@@ -15,8 +15,8 @@ export function ThemeToggle() {
       aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
       className=" cursor-pointer "
     >
-      <Sun className="h-5 w-5 hidden dark:block" />
-      <Moon className="h-5 w-5 dark:hidden" />
+      <Sun className="h-5 w-5 hidden dark:block" suppressHydrationWarning />
+      <Moon className="h-5 w-5 dark:hidden" suppressHydrationWarning />
     </Button>
   );
 }
