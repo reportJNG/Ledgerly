@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { ThemeProvider } from "./Frontend/components/Myui/Themeprovider";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "Ledgerly",
@@ -14,7 +16,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <ThemeProvider>{children}</ThemeProvider>
+        <Toaster richColors position="top-right" />
+      </body>
     </html>
   );
 }
