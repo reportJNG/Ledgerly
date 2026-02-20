@@ -15,3 +15,5 @@ export const SignupSchema = z.object({
     .max(16, "Password max 16")
     .regex(/^[a-zA-Z0-9]+$/, "Password must only contain letters and numbers"),
 });
+
+export type SIGNupSchema = z.infer<typeof SignupSchema>;
