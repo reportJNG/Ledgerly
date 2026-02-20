@@ -1,7 +1,6 @@
 "use client";
-
+import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
-import { Sun, Moon } from "lucide-react";
 import { Button } from "../ui/button";
 
 export function ThemeToggle() {
@@ -12,11 +11,12 @@ export function ThemeToggle() {
       variant="outline"
       size="icon"
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      aria-label={`Switch to ${theme === "dark" ? "light" : "dark"} mode`}
-      className=" cursor-pointer "
+      className="h-9 w-9 rounded-md border border-border bg-background hover:bg-accent hover:text-accent-foreground cursor-pointer"
+      aria-label="Toggle theme"
     >
-      <Sun className="h-5 w-5 hidden dark:block" suppressHydrationWarning />
-      <Moon className="h-5 w-5 dark:hidden" suppressHydrationWarning />
+      <Sun className="h-5 w-5 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+      <Moon className="absolute h-5 w-5 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+      <span className="sr-only">Toggle theme</span>
     </Button>
   );
 }
