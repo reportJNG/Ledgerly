@@ -30,6 +30,9 @@ export default function Singup() {
     resolver: zodResolver(SignupSchema),
     defaultValues: {
       email: "",
+      name: "",
+      password: "",
+      confirmPassword: "",
     },
   });
 
