@@ -154,31 +154,39 @@ export default function Singup() {
               </form>
             </Form>
           </CardContent>
+          <div className="flex justify-center items-center gap-50 w-full">
+            <button
+              onClick={() => routes.push("/Login")}
+              className="text-xs text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+              aria-label="Login"
+              title="Login"
+            >
+              Already have an account?
+            </button>
+            <button
+              className="text-xs text-muted-foreground hover:text-primary transition-colors cursor-pointer"
+              aria-label="Help"
+              title="Help"
+              onClick={() =>
+                window.open("https://remalihamza.vercel.app/", "_blank")
+              }
+            >
+              Need help?
+            </button>
+          </div>
 
           <CardFooter className="flex flex-col gap-4">
-            {/* Terms */}
-            <p className="text-xs text-muted-foreground text-center">
-              By creating an account, you agree to our{" "}
-              <button className="text-primary hover:underline">
-                Terms of Service
-              </button>{" "}
-              and{" "}
-              <button className="text-primary hover:underline">
-                Privacy Policy
-              </button>
-            </p>
-
-            {/* Footer Links */}
             <div className="flex items-center justify-between w-full text-sm border-t pt-4">
-              <button
-                onClick={() => routes.push("/Login")}
-                className="text-muted-foreground hover:text-primary transition-colors"
-              >
-                Already have an account?
-              </button>
-              <button className="text-muted-foreground hover:text-primary transition-colors">
-                Need help?
-              </button>
+              <p className="text-xs text-muted-foreground text-center">
+                By creating an account, you agree to our{" "}
+                <button className="text-primary hover:underline cursor-pointer">
+                  Terms of Service
+                </button>{" "}
+                and{" "}
+                <button className="text-primary hover:underline cursor-pointer">
+                  Privacy Policy
+                </button>
+              </p>
             </div>
           </CardFooter>
         </Card>
