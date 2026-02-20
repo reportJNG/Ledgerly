@@ -42,7 +42,7 @@ export default function Singup() {
           <Button
             variant="outline"
             onClick={() => routes.push("/Login")}
-            className="gap-2"
+            className="gap-2 cursor-pointer"
           >
             <LogIn className="h-4 w-4" />
             <span className="hidden sm:inline-block">Login</span>
