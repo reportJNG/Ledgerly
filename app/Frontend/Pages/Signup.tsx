@@ -36,7 +36,9 @@ export default function Singup() {
     },
   });
 
-  const handlesubmitting = () => {};
+  const handlesubmitting = () => {
+    METHODS.reset();
+  };
 
   return (
     <div className="min-h-screen bg-background">
@@ -106,6 +108,13 @@ export default function Singup() {
                           placeholder="Enter your full name"
                           className="h-11"
                           {...field}
+                          onChange={(e) => {
+                            e.target.value = e.target.value.replace(
+                              /[^a-zA-Z0-9]/g,
+                              "",
+                            );
+                            field.onChange(e);
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -125,6 +134,13 @@ export default function Singup() {
                           placeholder="Create a password"
                           className="h-11"
                           {...field}
+                          onChange={(e) => {
+                            e.target.value = e.target.value.replace(
+                              /[^a-zA-Z0-9]/g,
+                              "",
+                            );
+                            field.onChange(e);
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
@@ -144,6 +160,13 @@ export default function Singup() {
                           placeholder="Confirm your password"
                           className="h-11"
                           {...field}
+                          onChange={(e) => {
+                            e.target.value = e.target.value.replace(
+                              /[^a-zA-Z0-9]/g,
+                              "",
+                            );
+                            field.onChange(e);
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
