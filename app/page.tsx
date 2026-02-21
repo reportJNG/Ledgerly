@@ -1,4 +1,4 @@
-import Singup from "./Frontend/Pages/Signup";
+import Singup from "@/Frontend/Pages/Signup";
 export default function Home() {
   return <Singup />;
 }

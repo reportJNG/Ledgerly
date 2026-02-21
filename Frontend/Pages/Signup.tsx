@@ -174,7 +174,10 @@ export default function Singup() {
                   )}
                 />
 
-                <Button type="submit" className="w-full h-11 mt-6">
+                <Button
+                  type="submit"
+                  className="w-full h-11 mt-6 cursor-pointer"
+                >
                   Sign Up
                 </Button>
               </form>
