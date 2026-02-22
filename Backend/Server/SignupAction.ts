@@ -32,7 +32,7 @@ export async function SignupAction(data: SingupType) {
   const exist = await prisma.users.findUnique({
     where: { email },
   });
-  if (!exist) {
+  if (exist) {
     return { error: "Email used before" };
   }
   try {
