@@ -24,6 +24,7 @@ import { Input } from "../components/ui/input";
 import { SignupSchema, SingupType } from "../Schemas/Signup";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
+import { SignupAction } from "@/Backend/Server/SignupAction";
 
 export default function Singup() {
   const routes = useRouter();
@@ -37,9 +38,18 @@ export default function Singup() {
     },
   });
 
-  const handlesubmitting = () => {
-    METHODS.reset();
-    toast.success("yes");
+  const handlesubmitting = async (data: SingupType) => {
+    if (!data) {
+      toast.error("Failed Data");
+    } else {
+      const result = await SignupAction(data);
+      if (result?.error) {
+        toast.error(result.error);
+      } else if (result.success) {
+        toast.success(result.success);
+        METHODS.reset();
+      }
+    }
   };
 
   return (

@@ -39,6 +39,7 @@ export async function SignupAction(data: SingupType) {
     const putdata = await prisma.users.create({
       data: { email, name, password },
     });
+    return { success: "Accout create seccessfuly" };
   } catch (err) {
     return { error: "Failed to fetch" };
   }
