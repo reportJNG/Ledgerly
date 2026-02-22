@@ -48,6 +48,9 @@ export default function Singup() {
       } else if (result.success) {
         toast.success(result.success);
         METHODS.reset();
+        setTimeout(() => {
+          routes.push("/Login");
+        }, 3000);
       }
     }
   };
