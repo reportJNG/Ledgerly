@@ -36,7 +36,7 @@ export async function SignupAction(data: SingupType) {
     return { error: "Email used before" };
   }
   try {
-    const putdata = await prisma.users.create({
+    const data = await prisma.users.create({
       data: { email, name, password },
     });
     return { success: "Accout create seccessfuly" };
