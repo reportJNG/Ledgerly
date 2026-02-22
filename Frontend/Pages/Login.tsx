@@ -24,6 +24,7 @@ import { LoginSchema, LoginType } from "../Schemas/Login";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../components/ui/input";
 import { toast } from "sonner";
+import { LoginAction } from "@/Backend/Server/LoginAcion";
 
 export default function Login() {
   const { ...METHODS } = useForm<LoginType>({
@@ -35,9 +36,20 @@ export default function Login() {
   });
   const routes = useRouter();
 
-  const handlesubmitlogin = () => {
-    METHODS.reset();
-    toast.success("Successfully logged in!");
+  const handlesubmitlogin = async (data: LoginType) => {
+    const result = await LoginAction(data);
+    if (!result) {
+      toast.error("Failed to fetch");
+    }
+    if (result.error) {
+      toast.error(result.error);
+    } else {
+      if (result.success) {
+        toast.success(result.success);
+        METHODS.reset();
+        routes.push("/Home");
+      }
+    }
   };
 
   return (

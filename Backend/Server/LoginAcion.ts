@@ -25,10 +25,10 @@ export async function LoginAction(data: LoginType) {
       where: { email: email.toLocaleLowerCase() },
     });
     if (!result) {
-      return { erorr: "Invalid email " };
+      return { error: "Invalid email " };
     }
     if (result.password !== password) {
-      return { erorr: "Invalid password" };
+      return { error: "Invalid password" };
     }
     return { success: "Connected Successfully" };
   } catch (err) {
