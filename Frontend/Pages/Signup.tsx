@@ -23,6 +23,7 @@ import { useForm } from "react-hook-form";
 import { Input } from "../components/ui/input";
 import { SignupSchema, SingupType } from "../Schemas/Signup";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "sonner";
 
 export default function Singup() {
   const routes = useRouter();
@@ -38,6 +39,7 @@ export default function Singup() {
 
   const handlesubmitting = () => {
     METHODS.reset();
+    toast.success("yes");
   };
 
   return (

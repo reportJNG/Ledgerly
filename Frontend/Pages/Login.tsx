@@ -23,6 +23,7 @@ import { useForm } from "react-hook-form";
 import { LoginSchema, LoginType } from "../Schemas/Login";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../components/ui/input";
+import { toast } from "sonner";
 
 export default function Login() {
   const { ...METHODS } = useForm<LoginType>({
@@ -34,7 +35,10 @@ export default function Login() {
   });
   const routes = useRouter();
 
-  const handlesubmitlogin = () => {};
+  const handlesubmitlogin = () => {
+    METHODS.reset();
+    toast.success("yes");
+  };
 
   return (
     <div>
