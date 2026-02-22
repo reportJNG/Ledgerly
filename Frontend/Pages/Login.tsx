@@ -7,12 +7,34 @@ import {
   Card,
   CardContent,
   CardDescription,
+  CardFooter,
   CardHeader,
   CardTitle,
 } from "../components/ui/card";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../components/ui/form";
+import { useForm } from "react-hook-form";
+import { LoginSchema, LoginType } from "../Schemas/Login";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Input } from "../components/ui/input";
 
 export default function Login() {
+  const { ...METHODS } = useForm<LoginType>({
+    resolver: zodResolver(LoginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
   const routes = useRouter();
+
+  const handlesubmitlogin = () => {};
 
   return (
     <div>
@@ -46,7 +68,48 @@ export default function Login() {
             </CardDescription>
           </CardHeader>
 
-          <CardContent></CardContent>
+          <CardContent>
+            <Form {...METHODS}>
+              <form onSubmit={METHODS.handleSubmit(handlesubmitlogin)}>
+                <FormField
+                  control={METHODS.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="email"
+                          placeholder="Enter your email"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+
+                <FormField
+                  control={METHODS.control}
+                  name="password"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Password</FormLabel>
+                      <FormControl>
+                        <Input
+                          type="password"
+                          placeholder="Enter a password"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                ></FormField>
+                <Button type="submit">Login</Button>
+              </form>
+            </Form>
+          </CardContent>
 
           <div className="flex justify-center items-center gap-50 w-full">
             <button
@@ -69,7 +132,20 @@ export default function Login() {
             </button>
           </div>
 
-          <CardDescription></CardDescription>
+          <CardFooter className="flex flex-col gap-4">
+            <div className="flex items-center justify-between w-full text-sm border-t pt-4">
+              <p className="text-xs text-muted-foreground text-center">
+                By creating an account, you agree to our{" "}
+                <button className="text-primary hover:underline cursor-pointer">
+                  Terms of Service
+                </button>{" "}
+                and{" "}
+                <button className="text-primary hover:underline cursor-pointer">
+                  Privacy Policy
+                </button>
+              </p>
+            </div>
+          </CardFooter>
         </Card>
       </main>
     </div>
