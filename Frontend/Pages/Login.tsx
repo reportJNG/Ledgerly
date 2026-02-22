@@ -37,11 +37,11 @@ export default function Login() {
 
   const handlesubmitlogin = () => {
     METHODS.reset();
-    toast.success("yes");
+    toast.success("Successfully logged in!");
   };
 
   return (
-    <div>
+    <div className="min-h-screen bg-background">
       <header className="flex items-center justify-between px-6 py-4 border-b">
         <div className="flex items-center gap-2">
           <LayoutDashboard className="h-6 w-6 text-primary" />
@@ -62,19 +62,22 @@ export default function Login() {
           </Button>
         </div>
       </header>
-      <main>
-        <Card>
-          <CardHeader>
-            <CardTitle>Login with account</CardTitle>
+
+      <main className="flex items-center justify-center p-4 md:p-6">
+        <Card className="w-full max-w-md mx-auto">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl">Welcome back</CardTitle>
             <CardDescription>
-              {" "}
-              Login to start managing your finances
+              Login to continue managing your finances
             </CardDescription>
           </CardHeader>
 
           <CardContent>
             <Form {...METHODS}>
-              <form onSubmit={METHODS.handleSubmit(handlesubmitlogin)}>
+              <form
+                onSubmit={METHODS.handleSubmit(handlesubmitlogin)}
+                className="space-y-4"
+              >
                 <FormField
                   control={METHODS.control}
                   name="email"
@@ -85,6 +88,7 @@ export default function Login() {
                         <Input
                           type="email"
                           placeholder="Enter your email"
+                          className="h-11"
                           {...field}
                         />
                       </FormControl>
@@ -102,27 +106,34 @@ export default function Login() {
                       <FormControl>
                         <Input
                           type="password"
-                          placeholder="Enter a password"
+                          placeholder="Enter your password"
+                          className="h-11"
                           {...field}
                         />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
                   )}
-                ></FormField>
-                <Button type="submit">Login</Button>
+                />
+
+                <Button
+                  type="submit"
+                  className="w-full h-11 mt-6 cursor-pointer"
+                >
+                  Login
+                </Button>
               </form>
             </Form>
           </CardContent>
 
-          <div className="flex justify-center items-center gap-50 w-full">
+          <div className="flex justify-center items-center gap-32 w-full px-6">
             <button
-              onClick={() => routes.push("/Login")}
+              onClick={() => routes.push("/")}
               className="text-xs text-muted-foreground hover:text-primary transition-colors cursor-pointer"
-              aria-label="Login"
-              title="Login"
+              aria-label="Sign up"
+              title="Sign up"
             >
-              Already have an account?
+              Dont have an account?
             </button>
             <button
               className="text-xs text-muted-foreground hover:text-primary transition-colors cursor-pointer"
@@ -138,8 +149,8 @@ export default function Login() {
 
           <CardFooter className="flex flex-col gap-4">
             <div className="flex items-center justify-between w-full text-sm border-t pt-4">
-              <p className="text-xs text-muted-foreground text-center">
-                By creating an account, you agree to our{" "}
+              <p className="text-xs text-muted-foreground text-center w-full">
+                By logging in, you agree to our{" "}
                 <button className="text-primary hover:underline cursor-pointer">
                   Terms of Service
                 </button>{" "}
