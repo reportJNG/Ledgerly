@@ -90,8 +90,13 @@ export default function About() {
         </div>
 
         <div className="mt-8 pt-6 border-t flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-sm text-muted-foreground">
-            © 2026 Ledgerly. All rights reserved.
+          <p
+            className="text-sm text-muted-foreground"
+            onClick={() =>
+              window.open("https://github.com/reportJNG", "_blank")
+            }
+          >
+            © 2026 Ledgerly All rights reserved
           </p>
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <Button variant="ghost">Privacy Policy</Button>
