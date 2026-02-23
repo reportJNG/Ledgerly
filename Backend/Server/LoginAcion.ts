@@ -1,7 +1,8 @@
 "use server";
 import { LoginType } from "@/Frontend/Schemas/Login";
 import { prisma } from "@/lib/prisma";
-
+import jwt from "jsonwebtoken";
+import { cookies } from "next/headers";
 export async function LoginAction(data: LoginType) {
   if (!data) {
     return { error: "Invalid data !" };
@@ -30,6 +31,18 @@ export async function LoginAction(data: LoginType) {
     if (result.password !== password) {
       return { error: "Invalid password" };
     }
+
+    const token = jwt.sign({ userId: result.id }, process.env.JWT_SECRET!, {
+      expiresIn: "3d",
+    });
+    (await cookies()).set("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 3,
+    });
+
     return { success: "Connected Successfully" };
   } catch (err) {
     return { error: "Failed to fetch" };
