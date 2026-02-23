@@ -15,11 +15,11 @@ import { Button } from "../ui/button";
 import { ThemeToggle } from "./Themetoggle";
 
 interface Topbarprops {
-  setSettings: React.Dispatch<React.SetStateAction<boolean>>;
-  setTerms: React.Dispatch<React.SetStateAction<boolean>>;
+  closeSettings: () => void;
+  closeTerms: () => void;
 }
 
-export default function Topbar({ setSettings, setTerms }: Topbarprops) {
+export default function Topbar({ closeSettings, closeTerms }: Topbarprops) {
   const routes = useRouter();
 
   return (
@@ -85,7 +85,7 @@ export default function Topbar({ setSettings, setTerms }: Topbarprops) {
             aria-label="Settings"
             title="Settings"
             className="relative hover:bg-primary/10 hover:text-primary transition-all duration-200 cursor-pointer"
-            onClick={() => setSettings((prev) => !prev)}
+            onClick={closeSettings}
           >
             <Settings className="h-5 w-5" />
           </Button>
@@ -96,7 +96,7 @@ export default function Topbar({ setSettings, setTerms }: Topbarprops) {
             aria-label="Terms"
             title="Terms"
             className="relative hover:bg-primary/10 hover:text-primary transition-all duration-200 cursor-pointer"
-            onClick={() => setTerms((prev) => !prev)}
+            onClick={closeTerms}
           >
             <FileText className="h-5 w-5" />
           </Button>

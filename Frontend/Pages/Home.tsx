@@ -4,6 +4,9 @@ import About from "../components/Myui/About";
 import Topbar from "../components/Myui/Topbar";
 import { Button } from "../components/ui/button";
 import { Activity, Tags, BarChart3, Calendar } from "lucide-react";
+import { useState } from "react";
+import Terms from "../components/Myui/Terms";
+import Settings from "../components/Myui/Settings";
 
 export const features = [
   {
@@ -34,10 +37,16 @@ export const features = [
 export default function Home() {
   const routes = useRouter();
 
+  const [settings, setSettings] = useState<boolean>(false);
+  const [terms, setTerms] = useState<boolean>(false);
+
   return (
     <div className="min-h-screen flex flex-col">
       <header>
-        <Topbar />
+        <Topbar
+          closeSettings={() => setSettings((prev) => !prev)}
+          closeTerms={() => setTerms((prev) => !prev)}
+        />
       </header>
 
       <main className="flex-1">
@@ -133,6 +142,10 @@ export default function Home() {
             </Button>
           </div>
         </section>
+
+        {/**here to call the overlay pop-up component */}
+        {terms && <Terms close={() => setTerms((prev) => !prev)} />}
+        {settings && <Settings close={() => setSettings((prev) => !prev)} />}
       </main>
 
       <footer>
