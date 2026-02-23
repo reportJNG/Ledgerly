@@ -1,7 +1,8 @@
 "use server";
-
+import jwt from "jsonwebtoken";
 import { SingupType } from "@/Frontend/Schemas/Signup";
 import { prisma } from "@/lib/prisma";
+import { cookies } from "next/headers";
 
 export async function SignupAction(data: SingupType) {
   if (!data) {
@@ -38,6 +39,16 @@ export async function SignupAction(data: SingupType) {
   try {
     const data = await prisma.users.create({
       data: { email, name, password },
+    });
+    const token = jwt.sign({ userId: data.id }, process.env.JWT_SECRET!, {
+      expiresIn: "3d",
+    });
+    (await cookies()).set("token", token, {
+      httpOnly: true,
+      secure: true,
+      sameSite: "strict",
+      path: "/",
+      maxAge: 60 * 60 * 24 * 3,
     });
     return { success: "Accout create seccessfuly" };
   } catch (err) {

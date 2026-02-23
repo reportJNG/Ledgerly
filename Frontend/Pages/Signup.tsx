@@ -49,7 +49,7 @@ export default function Singup() {
         toast.success(result.success);
         METHODS.reset();
         setTimeout(() => {
-          routes.push("/Login");
+          routes.push("/Home");
         }, 3000);
       }
     }
