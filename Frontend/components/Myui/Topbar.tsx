@@ -2,17 +2,24 @@
 import {
   BarChart3,
   BriefcaseBusinessIcon,
+  FileText,
   HelpCircle,
   Home,
   LayoutDashboard,
   LogOut,
+  Settings,
   UserCircle2Icon,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "../ui/button";
 import { ThemeToggle } from "./Themetoggle";
 
-export default function Topbar() {
+interface Topbarprops {
+  setSettings: React.Dispatch<React.SetStateAction<boolean>>;
+  setTerms: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
+export default function Topbar({ setSettings, setTerms }: Topbarprops) {
   const routes = useRouter();
 
   return (
@@ -71,7 +78,29 @@ export default function Topbar() {
           </Button>
 
           <div className="h-6 w-px bg-border mx-1 hidden sm:block" />
-          <ThemeToggle />
+
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Settings"
+            title="Settings"
+            className="relative hover:bg-primary/10 hover:text-primary transition-all duration-200 cursor-pointer"
+            onClick={() => setSettings((prev) => !prev)}
+          >
+            <Settings className="h-5 w-5" />
+          </Button>
+
+          <Button
+            variant="ghost"
+            size="icon"
+            aria-label="Terms"
+            title="Terms"
+            className="relative hover:bg-primary/10 hover:text-primary transition-all duration-200 cursor-pointer"
+            onClick={() => setTerms((prev) => !prev)}
+          >
+            <FileText className="h-5 w-5" />
+          </Button>
+
           <Button
             variant="ghost"
             size="icon"
@@ -85,6 +114,7 @@ export default function Topbar() {
             <HelpCircle className="h-5 w-5" />
           </Button>
 
+          <ThemeToggle />
           <Button
             variant="ghost"
             size="icon"
