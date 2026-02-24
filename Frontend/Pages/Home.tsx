@@ -4,9 +4,10 @@ import About from "../components/Myui/About";
 import Topbar from "../components/Myui/Topbar";
 import { Button } from "../components/ui/button";
 import { Activity, Tags, BarChart3, Calendar } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Terms from "../components/Myui/Terms";
 import Settings from "../components/Myui/Settings";
+import { TokenChecker } from "@/Backend/Server/TokenChecker";
 
 export const features = [
   {
@@ -36,6 +37,16 @@ export const features = [
 
 export default function Home() {
   const routes = useRouter();
+
+  useEffect(() => {
+    const check = async () => {
+      const testusers = await TokenChecker();
+      if (testusers?.error) {
+        routes.push("/");
+      }
+    };
+    check();
+  }, [routes]);
 
   const [settings, setSettings] = useState<boolean>(false);
   const [terms, setTerms] = useState<boolean>(false);
