@@ -16,6 +16,8 @@ import { users } from "@/lib/generated/prisma";
 import { Button } from "../components/ui/button";
 import Settings from "../components/Myui/Settings";
 import Terms from "../components/Myui/Terms";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
 
 export default function Profile() {
   const [settings, setSettings] = useState<boolean>(false);
@@ -36,6 +38,9 @@ export default function Profile() {
     };
     getdata();
   }, []);
+
+  const [editprofile, setEditProfile] = useState<boolean>(false);
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <header className="border-b border-border">
@@ -67,48 +72,60 @@ export default function Profile() {
 
                 <CardContent className="space-y-4 pt-6">
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-muted-foreground">
+                    <Label className="text-sm font-medium text-muted-foreground">
                       Email
-                    </label>
-                    <input
-                      type="text"
-                      disabled
-                      value={userdata?.email}
-                      className="w-full px-4 py-2 rounded-md bg-muted/50 border border-input text-foreground disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
-                    />
+                    </Label>
+                    <Input type="text" disabled value={userdata?.email} />
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-sm font-medium text-muted-foreground">
+                    <Label className="text-sm font-medium text-muted-foreground">
                       Name
-                    </label>
-                    <input
-                      type="text"
-                      disabled
-                      value={userdata?.name ?? ""}
-                      className="w-full px-4 py-2 rounded-md bg-muted/50 border border-input text-foreground disabled:opacity-70 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-ring focus:border-transparent transition-colors"
-                    />
+                    </Label>
+                    <Input type="text" disabled value={userdata?.name ?? ""} />
                   </div>
                 </CardContent>
 
                 <CardDescription className="border-t border-border/50 pt-4 pb-6 px-6">
-                  <div className="flex flex-col sm:flex-row gap-3">
-                    <Button
-                      aria-label="Reset Password"
-                      title="Reset Password"
-                      className="flex-1 bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors cursor-pointer"
-                    >
-                      Reset Password
-                    </Button>
+                  {!editprofile && (
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <Button
+                        aria-label="Edit Password"
+                        title="Edit Password"
+                        className="flex-1 bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors cursor-pointer"
+                      >
+                        Edit Password
+                      </Button>
 
-                    <Button
-                      aria-label="Edit Profile"
-                      title="Edit Profile"
-                      className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors cursor-pointer"
-                    >
-                      Edit Profile
-                    </Button>
-                  </div>
+                      <Button
+                        aria-label="Edit Profile"
+                        title="Edit Profile"
+                        className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors cursor-pointer"
+                        onClick={() => setEditProfile((prev) => !prev)}
+                      >
+                        Edit Profile
+                      </Button>
+                    </div>
+                  )}
+                  {editprofile && (
+                    <div className="flex flex-col sm:flex-row gap-3">
+                      <Button
+                        aria-label="Cancle"
+                        title="Cancle"
+                        className="flex-1 bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors cursor-pointer"
+                      >
+                        Cancle
+                      </Button>
+
+                      <Button
+                        aria-label="Save"
+                        title="Save"
+                        className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors cursor-pointer"
+                      >
+                        Save
+                      </Button>
+                    </div>
+                  )}
                 </CardDescription>
               </Card>
             </div>
