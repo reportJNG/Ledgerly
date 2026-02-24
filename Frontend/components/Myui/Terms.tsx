@@ -9,7 +9,7 @@ interface TermsProps {
 export default function Terms({ close }: TermsProps) {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      <div className="relative w-full max-w-2xl max-h-[90vh] overflow-auto rounded-xl border bg-card shadow-2xl">
+      <div className="relative w-full max-w-2xl max-h-[90vh] overflow-auto rounded-xl bg-card shadow-2xl">
         <div className="sticky top-0 z-10 flex justify-between items-center p-4 border-b bg-card/95 backdrop-blur supports-backdrop-filter:bg-card/75">
           <h2 className="text-xl font-semibold text-foreground">
             About This Application
