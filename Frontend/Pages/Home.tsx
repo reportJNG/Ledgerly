@@ -57,6 +57,7 @@ export default function Home() {
         <Topbar
           closeSettings={() => setSettings((prev) => !prev)}
           closeTerms={() => setTerms((prev) => !prev)}
+          active="Home"
         />
       </header>
 
