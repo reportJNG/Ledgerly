@@ -51,7 +51,7 @@ export async function SignupAction(data: SingupType) {
       maxAge: 60 * 60 * 24 * 3,
     });
     return { success: "Accout create seccessfuly" };
-  } catch (err) {
+  } catch {
     return { error: "Failed to fetch" };
   }
 }

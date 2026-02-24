@@ -44,7 +44,7 @@ export async function LoginAction(data: LoginType) {
     });
 
     return { success: "Connected Successfully" };
-  } catch (err) {
+  } catch {
     return { error: "Failed to fetch" };
   }
 }
