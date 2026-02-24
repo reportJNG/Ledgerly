@@ -36,8 +36,8 @@ export default function About() {
   ];
 
   return (
-    <footer className="border-t bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
-      <div className="container px-4 md:px-6 py-8 md:py-12">
+    <footer className="w-full border-t border-border/40 bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div className="col-span-1 md:col-span-1 space-y-4">
             <div className="flex items-center gap-2">
@@ -89,23 +89,32 @@ export default function About() {
           </div>
         </div>
 
-        <div className="mt-8 pt-6 border-t flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p
-            className="text-sm text-muted-foreground"
-            onClick={() =>
-              window.open("https://github.com/reportJNG", "_blank")
-            }
-          >
+        <div className="mt-8 pt-6 border-t border-border/40 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-sm text-muted-foreground order-2 sm:order-1">
             © 2026 Ledgerly All rights reserved
           </p>
-          <div className="flex items-center gap-4 text-sm text-muted-foreground">
-            <Button variant="ghost">Privacy Policy</Button>
-            <Button variant="ghost">Terms of Service</Button>
-            <Button variant="ghost">Contact</Button>
+          <div className="flex items-center gap-4 text-sm text-muted-foreground order-1 sm:order-2">
+            <Button
+              variant="link"
+              className="h-auto p-0 text-muted-foreground hover:text-primary"
+            >
+              Privacy Policy
+            </Button>
+            <Button
+              variant="link"
+              className="h-auto p-0 text-muted-foreground hover:text-primary"
+            >
+              Terms of Service
+            </Button>
+            <Button
+              variant="link"
+              className="h-auto p-0 text-muted-foreground hover:text-primary"
+            >
+              Contact
+            </Button>
           </div>
-          <div className="flex items-center gap-1 text-xs text-muted-foreground">
-            <span>Made</span>
-            <span>by Hamza Remali</span>
+          <div className="flex items-center gap-1 text-xs text-muted-foreground order-3">
+            <span>Made by Hamza Remali</span>
           </div>
         </div>
       </div>
