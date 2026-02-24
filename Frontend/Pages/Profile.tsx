@@ -14,6 +14,8 @@ import {
 import { GetInfoUser } from "@/Backend/Server/GetInfoUser";
 import { users } from "@/lib/generated/prisma";
 import { Button } from "../components/ui/button";
+import Settings from "../components/Myui/Settings";
+import Terms from "../components/Myui/Terms";
 
 export default function Profile() {
   const [settings, setSettings] = useState<boolean>(false);
@@ -46,7 +48,6 @@ export default function Profile() {
 
       <main className="flex-1 container mx-auto px-4 py-8">
         <div className="flex flex-col md:flex-row gap-8">
-          {/** big ui profile user left */}
           <div className="md:w-1/3">
             <div className="flex justify-center md:justify-start">
               <div className="w-100 h-100 rounded-full bg-muted flex items-center justify-center border-4 border-primary/10">
@@ -55,9 +56,7 @@ export default function Profile() {
             </div>
           </div>
 
-          {/**right side */}
           <div className="md:w-2/3">
-            {/** empty input Ui */}
             <div className="w-full max-w-2xl">
               <Card className="shadow-lg border-border/50">
                 <CardHeader className="border-b border-border/50 pb-4">
@@ -115,6 +114,8 @@ export default function Profile() {
             </div>
           </div>
         </div>
+        {settings && <Settings close={() => setSettings((prev) => !prev)} />}
+        {terms && <Terms close={() => setTerms((prev) => !prev)} />}
       </main>
 
       <footer className="border-t border-border mt-auto">
