@@ -41,6 +41,8 @@ export default function Profile() {
 
   const [editprofile, setEditProfile] = useState<boolean>(false);
 
+  const UpdateProfile = async () => {};
+
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <header className="border-b border-border">
@@ -75,14 +77,22 @@ export default function Profile() {
                     <Label className="text-sm font-medium text-muted-foreground">
                       Email
                     </Label>
-                    <Input type="text" disabled value={userdata?.email} />
+                    <Input
+                      type="text"
+                      disabled={!editprofile}
+                      value={userdata?.email}
+                    />
                   </div>
 
                   <div className="space-y-2">
                     <Label className="text-sm font-medium text-muted-foreground">
                       Name
                     </Label>
-                    <Input type="text" disabled value={userdata?.name ?? ""} />
+                    <Input
+                      type="text"
+                      disabled={!editprofile}
+                      value={userdata?.name ?? ""}
+                    />
                   </div>
                 </CardContent>
 
@@ -113,6 +123,7 @@ export default function Profile() {
                         aria-label="Cancle"
                         title="Cancle"
                         className="flex-1 bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors cursor-pointer"
+                        onClick={() => setEditProfile((prev) => !prev)}
                       >
                         Cancle
                       </Button>
@@ -121,6 +132,7 @@ export default function Profile() {
                         aria-label="Save"
                         title="Save"
                         className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors cursor-pointer"
+                        onClick={}
                       >
                         Save
                       </Button>
