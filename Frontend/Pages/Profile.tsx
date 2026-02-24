@@ -18,6 +18,7 @@ import Settings from "../components/Myui/Settings";
 import Terms from "../components/Myui/Terms";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
+import { Form } from "../components/ui/form";
 
 export default function Profile() {
   const [settings, setSettings] = useState<boolean>(false);
@@ -118,25 +119,27 @@ export default function Profile() {
                     </div>
                   )}
                   {editprofile && (
-                    <div className="flex flex-col sm:flex-row gap-3">
-                      <Button
-                        aria-label="Cancle"
-                        title="Cancle"
-                        className="flex-1 bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors cursor-pointer"
-                        onClick={() => setEditProfile((prev) => !prev)}
-                      >
-                        Cancle
-                      </Button>
+                    <Form>
+                      <div className="flex flex-col sm:flex-row gap-3">
+                        <Button
+                          aria-label="Cancle"
+                          title="Cancle"
+                          className="flex-1 bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors cursor-pointer"
+                          onClick={() => setEditProfile((prev) => !prev)}
+                        >
+                          Cancle
+                        </Button>
 
-                      <Button
-                        aria-label="Save"
-                        title="Save"
-                        className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors cursor-pointer"
-                        onClick={}
-                      >
-                        Save
-                      </Button>
-                    </div>
+                        <Button
+                          type="submit"
+                          aria-label="Save"
+                          title="Save"
+                          className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors cursor-pointer"
+                        >
+                          Save
+                        </Button>
+                      </div>
+                    </Form>
                   )}
                 </CardDescription>
               </Card>
