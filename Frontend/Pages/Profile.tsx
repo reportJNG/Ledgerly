@@ -19,6 +19,7 @@ import Terms from "../components/Myui/Terms";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Form } from "../components/ui/form";
+import { useForm } from "react-hook-form";
 
 export default function Profile() {
   const [settings, setSettings] = useState<boolean>(false);

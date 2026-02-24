@@ -9,3 +9,5 @@ export const UpdaterProfileSchema = z.object({
     .max(30, "Max is 30")
     .regex(/^[a-zA-Z0-9]+$/, "Name must only contain letters and numbers"),
 });
+
+export type UpdaterProfileType = z.infer<typeof UpdaterProfileSchema>;
