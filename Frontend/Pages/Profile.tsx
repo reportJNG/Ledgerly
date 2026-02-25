@@ -32,6 +32,8 @@ import {
   UpdaterProfileType,
 } from "../Schemas/UpdaterProfile";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { UpdateProfileAction } from "@/Backend/Server/UpdateProfile";
+import { toast } from "sonner";
 
 export default function Profile() {
   const [settings, setSettings] = useState<boolean>(false);
@@ -65,7 +67,17 @@ export default function Profile() {
     METHODS.reset();
     setEditProfile((prev) => !prev);
   };
-  const UpdateProfile = async (data: UpdaterProfileType) => {};
+  const UpdateProfile = async (data: UpdaterProfileType) => {
+    const result = await UpdateProfileAction(userdata.id, data);
+    if (result.error) {
+      toast.error(result.error);
+    } else {
+      if (result.success) {
+        toast.success(result.success);
+        METHODS.reset();
+      }
+    }
+  };
 
   return (
     <div className="min-h-screen flex flex-col bg-background">

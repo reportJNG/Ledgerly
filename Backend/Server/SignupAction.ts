@@ -18,6 +18,9 @@ export async function SignupAction(data: SingupType) {
   if (!/^[A-Za-z0-9]+$/.test(name)) {
     return { error: "Name must contain only letters and numbers" };
   }
+  if (name.length < 1 || name.length > 30) {
+    return { error: "Name Have btween 1 and 30 letter" };
+  }
   if (
     !/^[A-Za-z0-9]+$/.test(password) ||
     !/^[A-Za-z0-9]+$/.test(confirmPassword)
