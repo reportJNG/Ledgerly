@@ -61,6 +61,10 @@ export default function Profile() {
       name: "",
     },
   });
+  const buttonedithandler = () => {
+    METHODS.reset();
+    setEditProfile((prev) => !prev);
+  };
   const UpdateProfile = async (data: UpdaterProfileType) => {};
 
   return (
@@ -131,7 +135,7 @@ export default function Profile() {
                         aria-label="Edit Profile"
                         title="Edit Profile"
                         className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors cursor-pointer"
-                        onClick={() => setEditProfile((prev) => !prev)}
+                        onClick={buttonedithandler}
                       >
                         Edit Profile
                       </Button>
@@ -149,7 +153,7 @@ export default function Profile() {
                           control={METHODS.control}
                           name="email"
                           render={({ field }) => (
-                            <FormItem className="space-y-2">
+                            <FormItem>
                               <FormLabel className="text-sm font-medium text-foreground">
                                 Email
                               </FormLabel>
@@ -167,7 +171,7 @@ export default function Profile() {
                                     );
                                     field.onChange(e);
                                   }}
-                                  className="h-10 px-3 py-2 bg-background border-input rounded-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                                  className=" text-foreground"
                                 />
                               </FormControl>
                               <FormMessage className="text-xs text-destructive" />
@@ -179,7 +183,7 @@ export default function Profile() {
                           control={METHODS.control}
                           name="name"
                           render={({ field }) => (
-                            <FormItem className="space-y-2">
+                            <FormItem>
                               <FormLabel className="text-sm font-medium text-foreground">
                                 Name
                               </FormLabel>
@@ -195,7 +199,7 @@ export default function Profile() {
                                     );
                                     field.onChange(e);
                                   }}
-                                  className="h-10 px-3 py-2 bg-background border-input rounded-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                                  className=" text-foreground"
                                 />
                               </FormControl>
                               <FormMessage className="text-xs text-destructive" />
