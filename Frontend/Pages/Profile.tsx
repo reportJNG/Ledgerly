@@ -147,7 +147,7 @@ export default function Profile() {
                     <Form {...METHODS}>
                       <form
                         onSubmit={METHODS.handleSubmit(UpdateProfile)}
-                        className="space-y-6"
+                        className="space-y-5.5 "
                       >
                         <FormField
                           control={METHODS.control}
