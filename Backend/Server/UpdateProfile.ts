@@ -1,7 +1,6 @@
 "use server";
 import { UpdaterProfileType } from "@/Frontend/Schemas/UpdaterProfile";
 import { prisma } from "@/lib/prisma";
-import { success } from "zod";
 
 export async function UpdateProfileAction(
   id: string,
