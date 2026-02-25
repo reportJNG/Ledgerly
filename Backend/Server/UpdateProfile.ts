@@ -1,12 +1,12 @@
 "use server";
+import { UpdaterProfileType } from "@/Frontend/Schemas/UpdaterProfile";
 import { prisma } from "@/lib/prisma";
 
 export async function UpdateProfileAction(
   id: string,
-  email: string,
-  name: string,
+  data: UpdaterProfileType,
 ) {
-  if (!id) {
+  if (!id || !data) {
     return { error: "Failed to fetch" };
   }
 
