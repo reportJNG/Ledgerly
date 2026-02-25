@@ -38,6 +38,7 @@ import {
   UpdaterProfilePasswordSchema,
   UpdaterProfilePasswordType,
 } from "../Schemas/UpadaterProfilePassword";
+import { UpdateProfilePasswordAction } from "@/Backend/Server/UpadteProfilePassword";
 
 export default function Profile() {
   const [settings, setSettings] = useState<boolean>(false);
@@ -92,7 +93,17 @@ export default function Profile() {
       confirmPassword: "",
     },
   });
-  const updatepassword = async (data: UpdaterProfilePasswordType) => {};
+  const updatepassword = async (data: UpdaterProfilePasswordType) => {
+    const result = await UpdateProfilePasswordAction(userdata.id, data);
+
+    if (result.error) {
+      toast.error(result.error);
+    } else {
+      if (result.success) toast.success(result.success);
+    }
+    METHODS2.reset();
+    setEditPassowrd((prev) => !prev);
+  };
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <header className="border-b border-border">

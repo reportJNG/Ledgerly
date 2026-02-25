@@ -3,8 +3,8 @@ import { UpdaterProfilePasswordType } from "@/Frontend/Schemas/UpadaterProfilePa
 import { prisma } from "@/lib/prisma";
 
 export async function UpdateProfilePasswordAction(
-  data: UpdaterProfilePasswordType,
   id: string,
+  data: UpdaterProfilePasswordType,
 ) {
   if (!data || !id) {
     return { error: "Failed to fetch" };
