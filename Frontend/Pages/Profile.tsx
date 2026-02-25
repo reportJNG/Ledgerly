@@ -18,8 +18,20 @@ import Settings from "../components/Myui/Settings";
 import Terms from "../components/Myui/Terms";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
-import { Form } from "../components/ui/form";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "../components/ui/form";
 import { useForm } from "react-hook-form";
+import {
+  UpdaterProfileSchema,
+  UpdaterProfileType,
+} from "../Schemas/UpdaterProfile";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 export default function Profile() {
   const [settings, setSettings] = useState<boolean>(false);
@@ -42,8 +54,14 @@ export default function Profile() {
   }, []);
 
   const [editprofile, setEditProfile] = useState<boolean>(false);
-
-  const UpdateProfile = async () => {};
+  const { ...METHODS } = useForm<UpdaterProfileType>({
+    resolver: zodResolver(UpdaterProfileSchema),
+    defaultValues: {
+      email: "",
+      name: "",
+    },
+  });
+  const UpdateProfile = async (data: UpdaterProfileType) => {};
 
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -74,31 +92,31 @@ export default function Profile() {
                   </CardTitle>
                 </CardHeader>
 
-                <CardContent className="space-y-4 pt-6">
-                  <div className="space-y-2">
-                    <Label className="text-sm font-medium text-muted-foreground">
-                      Email
-                    </Label>
-                    <Input
-                      type="text"
-                      disabled={!editprofile}
-                      value={userdata?.email}
-                    />
-                  </div>
+                {/**static profile */}
 
-                  <div className="space-y-2">
-                    <Label className="text-sm font-medium text-muted-foreground">
-                      Name
-                    </Label>
-                    <Input
-                      type="text"
-                      disabled={!editprofile}
-                      value={userdata?.name ?? ""}
-                    />
-                  </div>
-                </CardContent>
+                {!editprofile && (
+                  <CardContent className="space-y-4 pt-6">
+                    <div className="space-y-2">
+                      <Label className="text-sm font-medium text-muted-foreground">
+                        Email
+                      </Label>
+                      <Input type="text" disabled value={userdata?.email} />
+                    </div>
 
-                <CardDescription className="border-t border-border/50 pt-4 pb-6 px-6">
+                    <div className="space-y-2">
+                      <Label className="text-sm font-medium text-muted-foreground">
+                        Name
+                      </Label>
+                      <Input
+                        type="text"
+                        disabled
+                        value={userdata?.name ?? ""}
+                      />
+                    </div>
+                  </CardContent>
+                )}
+
+                <CardDescription className=" pt-4 pb-6 px-6">
                   {!editprofile && (
                     <div className="flex flex-col sm:flex-row gap-3">
                       <Button
@@ -119,27 +137,94 @@ export default function Profile() {
                       </Button>
                     </div>
                   )}
-                  {editprofile && (
-                    <Form>
-                      <div className="flex flex-col sm:flex-row gap-3">
-                        <Button
-                          aria-label="Cancle"
-                          title="Cancle"
-                          className="flex-1 bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors cursor-pointer"
-                          onClick={() => setEditProfile((prev) => !prev)}
-                        >
-                          Cancle
-                        </Button>
 
-                        <Button
-                          type="submit"
-                          aria-label="Save"
-                          title="Save"
-                          className="flex-1 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors cursor-pointer"
-                        >
-                          Save
-                        </Button>
-                      </div>
+                  {/**Updating profile */}
+                  {editprofile && (
+                    <Form {...METHODS}>
+                      <form
+                        onSubmit={METHODS.handleSubmit(UpdateProfile)}
+                        className="space-y-6"
+                      >
+                        <FormField
+                          control={METHODS.control}
+                          name="email"
+                          render={({ field }) => (
+                            <FormItem className="space-y-2">
+                              <FormLabel className="text-sm font-medium text-foreground">
+                                Email
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  type="email"
+                                  {...field}
+                                  placeholder={
+                                    userdata.email ?? "jhon@gmail.com"
+                                  }
+                                  onChange={(e) => {
+                                    e.target.value = e.target.value.replace(
+                                      /[^a-zA-Z0-9]/g,
+                                      "",
+                                    );
+                                    field.onChange(e);
+                                  }}
+                                  className="h-10 px-3 py-2 bg-background border-input rounded-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                                />
+                              </FormControl>
+                              <FormMessage className="text-xs text-destructive" />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={METHODS.control}
+                          name="name"
+                          render={({ field }) => (
+                            <FormItem className="space-y-2">
+                              <FormLabel className="text-sm font-medium text-foreground">
+                                Name
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  type="text"
+                                  {...field}
+                                  placeholder={userdata.name ?? "jhon"}
+                                  onChange={(e) => {
+                                    e.target.value = e.target.value.replace(
+                                      /[^a-zA-Z0-9]/g,
+                                      "",
+                                    );
+                                    field.onChange(e);
+                                  }}
+                                  className="h-10 px-3 py-2 bg-background border-input rounded-md focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                                />
+                              </FormControl>
+                              <FormMessage className="text-xs text-destructive" />
+                            </FormItem>
+                          )}
+                        />
+
+                        <div className="flex flex-col sm:flex-row gap-3 pt-4 ">
+                          <Button
+                            type="button"
+                            aria-label="Cancel"
+                            title="Cancel"
+                            variant="outline"
+                            className="flex-1 h-10 px-4 py-2 bg-background border-input hover:bg-secondary/10 hover:text-foreground transition-colors cursor-pointer rounded-md"
+                            onClick={() => setEditProfile((prev) => !prev)}
+                          >
+                            Cancel
+                          </Button>
+
+                          <Button
+                            type="submit"
+                            aria-label="Save"
+                            title="Save"
+                            className="flex-1 h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors cursor-pointer rounded-md shadow-sm"
+                          >
+                            Save
+                          </Button>
+                        </div>
+                      </form>
                     </Form>
                   )}
                 </CardDescription>
