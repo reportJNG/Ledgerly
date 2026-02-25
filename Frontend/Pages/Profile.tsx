@@ -74,9 +74,10 @@ export default function Profile() {
     } else {
       if (result.success) {
         toast.success(result.success);
-        METHODS.reset();
       }
     }
+    METHODS.reset();
+    setEditProfile((prev) => !prev);
   };
 
   return (
@@ -173,16 +174,7 @@ export default function Profile() {
                                 <Input
                                   type="email"
                                   {...field}
-                                  placeholder={
-                                    userdata.email ?? "jhon@gmail.com"
-                                  }
-                                  onChange={(e) => {
-                                    e.target.value = e.target.value.replace(
-                                      /[^a-zA-Z0-9]/g,
-                                      "",
-                                    );
-                                    field.onChange(e);
-                                  }}
+                                  placeholder={userdata.email ?? ""}
                                   className=" text-foreground"
                                 />
                               </FormControl>
@@ -203,7 +195,7 @@ export default function Profile() {
                                 <Input
                                   type="text"
                                   {...field}
-                                  placeholder={userdata.name ?? "jhon"}
+                                  placeholder={userdata.name ?? ""}
                                   onChange={(e) => {
                                     e.target.value = e.target.value.replace(
                                       /[^a-zA-Z0-9]/g,

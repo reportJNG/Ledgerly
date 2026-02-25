@@ -1,6 +1,7 @@
 "use server";
 import { UpdaterProfileType } from "@/Frontend/Schemas/UpdaterProfile";
 import { prisma } from "@/lib/prisma";
+import { success } from "zod";
 
 export async function UpdateProfileAction(
   id: string,
@@ -20,14 +21,17 @@ export async function UpdateProfileAction(
   if (name.length < 1 || name.length > 30) {
     return { error: "Name Have btween 1 and 30 letter" };
   }
+
   const finduser = await prisma.users.findUnique({ where: { id } });
 
   if (!finduser) {
     return { error: "Failed to fetch" };
   }
-
+  if (finduser.email === email && finduser.name === name) {
+    return { success: "Saved Changes" };
+  }
   try {
-    const updating = prisma.users.update({
+    const updating = await prisma.users.update({
       where: { id: finduser.id },
       data: { email: email.toLocaleLowerCase(), name },
     });
