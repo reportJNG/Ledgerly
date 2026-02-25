@@ -32,7 +32,7 @@ import {
   UpdaterProfileInfoType,
 } from "../Schemas/UpdaterProfileInfo";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { UpdateProfileAction } from "@/Backend/Server/UpdateProfile";
+import { UpdateProfileInfoAction } from "@/Backend/Server/UpdateProfileInformation";
 import { toast } from "sonner";
 import {
   UpdaterProfilePasswordSchema,
@@ -72,7 +72,7 @@ export default function Profile() {
     setEditProfile((prev) => !prev);
   };
   const UpdateProfile = async (data: UpdaterProfileInfoType) => {
-    const result = await UpdateProfileAction(userdata.id, data);
+    const result = await UpdateProfileInfoAction(userdata.id, data);
     if (result.error) {
       toast.error(result.error);
     } else {
