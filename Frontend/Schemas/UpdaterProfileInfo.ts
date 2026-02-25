@@ -1,6 +1,6 @@
 import z from "zod";
 
-export const UpdaterProfileSchema = z.object({
+export const UpdaterProfileInfoSchema = z.object({
   email: z.string().email("Invalid email").toLowerCase(),
   name: z
     .string()
@@ -10,4 +10,4 @@ export const UpdaterProfileSchema = z.object({
     .regex(/^[a-zA-Z0-9]+$/, "Name must only contain letters and numbers"),
 });
 
-export type UpdaterProfileType = z.infer<typeof UpdaterProfileSchema>;
+export type UpdaterProfileInfoType = z.infer<typeof UpdaterProfileInfoSchema>;

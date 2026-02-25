@@ -28,12 +28,16 @@ import {
 } from "../components/ui/form";
 import { useForm } from "react-hook-form";
 import {
-  UpdaterProfileSchema,
-  UpdaterProfileType,
-} from "../Schemas/UpdaterProfile";
+  UpdaterProfileInfoSchema,
+  UpdaterProfileInfoType,
+} from "../Schemas/UpdaterProfileInfo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { UpdateProfileAction } from "@/Backend/Server/UpdateProfile";
 import { toast } from "sonner";
+import {
+  UpdaterProfilePasswordSchema,
+  UpdaterProfilePasswordType,
+} from "../Schemas/UpadaterProfilePassword";
 
 export default function Profile() {
   const [settings, setSettings] = useState<boolean>(false);
@@ -56,8 +60,8 @@ export default function Profile() {
   }, []);
 
   const [editprofile, setEditProfile] = useState<boolean>(false);
-  const { ...METHODS } = useForm<UpdaterProfileType>({
-    resolver: zodResolver(UpdaterProfileSchema),
+  const { ...METHODS } = useForm<UpdaterProfileInfoType>({
+    resolver: zodResolver(UpdaterProfileInfoSchema),
     defaultValues: {
       email: "",
       name: "",
@@ -67,7 +71,7 @@ export default function Profile() {
     METHODS.reset();
     setEditProfile((prev) => !prev);
   };
-  const UpdateProfile = async (data: UpdaterProfileType) => {
+  const UpdateProfile = async (data: UpdaterProfileInfoType) => {
     const result = await UpdateProfileAction(userdata.id, data);
     if (result.error) {
       toast.error(result.error);
@@ -80,6 +84,15 @@ export default function Profile() {
     setEditProfile((prev) => !prev);
   };
 
+  const [editpassword, setEditPassowrd] = useState<boolean>(false);
+  const { ...METHODS2 } = useForm<UpdaterProfilePasswordType>({
+    resolver: zodResolver(UpdaterProfilePasswordSchema),
+    defaultValues: {
+      password: "",
+      confirmPassword: "",
+    },
+  });
+  const updatepassword = async (data: UpdaterProfilePasswordType) => {};
   return (
     <div className="min-h-screen flex flex-col bg-background">
       <header className="border-b border-border">
@@ -111,7 +124,7 @@ export default function Profile() {
 
                 {/**static profile */}
 
-                {!editprofile && (
+                {!editprofile && !editpassword && (
                   <CardContent className="space-y-4 pt-6">
                     <div className="space-y-2">
                       <Label className="text-sm font-medium text-muted-foreground">
@@ -134,14 +147,15 @@ export default function Profile() {
                 )}
 
                 <CardDescription className=" pt-4 pb-6 px-6">
-                  {!editprofile && (
+                  {!editprofile && !editpassword && (
                     <div className="flex flex-col sm:flex-row gap-3">
                       <Button
-                        aria-label="Edit Password"
-                        title="Edit Password"
+                        aria-label="Rest Password"
+                        title="Rest Password"
                         className="flex-1 bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors cursor-pointer"
+                        onClick={() => setEditPassowrd((prev) => !prev)}
                       >
-                        Edit Password
+                        Rest Password
                       </Button>
 
                       <Button
@@ -211,6 +225,80 @@ export default function Profile() {
                           )}
                         />
 
+                        <div className="flex flex-col sm:flex-row gap-3 pt-4 ">
+                          <Button
+                            type="button"
+                            aria-label="Cancel"
+                            title="Cancel"
+                            variant="outline"
+                            className="flex-1 h-10 px-4 py-2 bg-background border-input hover:bg-secondary/10 hover:text-foreground transition-colors cursor-pointer rounded-md"
+                            onClick={() => setEditProfile((prev) => !prev)}
+                          >
+                            Cancel
+                          </Button>
+
+                          <Button
+                            type="submit"
+                            aria-label="Save"
+                            title="Save"
+                            className="flex-1 h-10 px-4 py-2 bg-primary text-primary-foreground hover:bg-primary/90 transition-colors cursor-pointer rounded-md shadow-sm"
+                          >
+                            Save
+                          </Button>
+                        </div>
+                      </form>
+                    </Form>
+                  )}
+
+                  {/**Updating Password */}
+                  {editpassword && (
+                    <Form {...METHODS2}>
+                      <form onSubmit={METHODS2.handleSubmit(updatepassword)}>
+                        <FormField
+                          control={METHODS2.control}
+                          name="password"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Password</FormLabel>
+                              <FormControl>
+                                <Input
+                                  {...field}
+                                  onChange={(e) => {
+                                    e.target.value = e.target.value.replace(
+                                      /[^a-zA-Z0-9]/g,
+                                      "",
+                                    );
+                                    field.onChange(e);
+                                  }}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={METHODS2.control}
+                          name="confirmPassword"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Confirme Passowrd</FormLabel>
+                              <FormControl>
+                                <Input
+                                  {...field}
+                                  onChange={(e) => {
+                                    e.target.value = e.target.value.replace(
+                                      /[^a-zA-Z0-9]/g,
+                                      "",
+                                    );
+                                    field.onChange(e);
+                                  }}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
                         <div className="flex flex-col sm:flex-row gap-3 pt-4 ">
                           <Button
                             type="button"

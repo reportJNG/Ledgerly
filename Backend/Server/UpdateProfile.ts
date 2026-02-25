@@ -1,5 +1,5 @@
 "use server";
-import { UpdaterProfileType } from "@/Frontend/Schemas/UpdaterProfile";
+import { UpdaterProfileType } from "@/Frontend/Schemas/UpdaterProfileInfo";
 import { prisma } from "@/lib/prisma";
 
 export async function UpdateProfileAction(
