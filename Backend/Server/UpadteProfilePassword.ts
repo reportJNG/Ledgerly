@@ -4,6 +4,7 @@ import { prisma } from "@/lib/prisma";
 
 export async function UpdateProfilePasswordAction(
   id: string,
+  passworduser: string,
   data: UpdaterProfilePasswordType,
 ) {
   if (!data || !id) {
@@ -27,18 +28,12 @@ export async function UpdateProfilePasswordAction(
     return { error: "Password must contain only letters and numbers" };
   }
 
-  const find = await prisma.users.findUnique({
-    where: { id },
-  });
-  if (!find) {
-    return { error: "Failed to fetch" };
-  }
-  if (password === find.password) {
+  if (password === passworduser) {
     return { success: "Changes Saved" };
   }
   try {
     const result = await prisma.users.update({
-      where: { id: find.id },
+      where: { id },
       data: { password: password },
     });
     return { success: "Password Updated Successfully" };

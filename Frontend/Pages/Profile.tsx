@@ -73,7 +73,7 @@ export default function Profile() {
     setEditProfile((prev) => !prev);
   };
   const UpdateProfile = async (data: UpdaterProfileInfoType) => {
-    const result = await UpdateProfileInfoAction(userdata.id, data);
+    const result = await UpdateProfileInfoAction(userdata, data);
     if (result.error) {
       toast.error(result.error);
     } else {
@@ -83,6 +83,10 @@ export default function Profile() {
     }
     METHODS.reset();
     setEditProfile((prev) => !prev);
+    setEditPassowrd((prev) => !prev);
+    setTimeout(() => {
+      window.location.reload();
+    }, 3000);
   };
 
   const [editpassword, setEditPassowrd] = useState<boolean>(false);
@@ -95,8 +99,11 @@ export default function Profile() {
     },
   });
   const updatepassword = async (data: UpdaterProfilePasswordType) => {
-    const result = await UpdateProfilePasswordAction(userdata.id, data);
-
+    const result = await UpdateProfilePasswordAction(
+      userdata.id,
+      userdata.password,
+      data,
+    );
     if (result.error) {
       toast.error(result.error);
     } else {
@@ -104,6 +111,9 @@ export default function Profile() {
     }
     METHODS2.reset();
     setEditPassowrd((prev) => !prev);
+    setTimeout(() => {
+      window.location.reload();
+    }, 3000);
   };
   return (
     <div className="min-h-screen flex flex-col bg-background">
@@ -130,7 +140,11 @@ export default function Profile() {
               <Card className="shadow-lg border-border/50">
                 <CardHeader className="border-b border-border/50 pb-4">
                   <CardTitle className="text-2xl font-semibold text-foreground">
-                    User Information
+                    {editprofile
+                      ? "Edit Profile"
+                      : editpassword
+                        ? "Update Password"
+                        : "My Profile"}
                   </CardTitle>
                 </CardHeader>
 
