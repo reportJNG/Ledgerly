@@ -83,7 +83,7 @@ export default function Profile() {
     }
     METHODS.reset();
     setEditProfile((prev) => !prev);
-    setEditPassowrd((prev) => !prev);
+
     setTimeout(() => {
       window.location.reload();
     }, 3000);
