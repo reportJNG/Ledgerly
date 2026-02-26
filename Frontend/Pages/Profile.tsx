@@ -89,6 +89,7 @@ export default function Profile() {
   const { ...METHODS2 } = useForm<UpdaterProfilePasswordType>({
     resolver: zodResolver(UpdaterProfilePasswordSchema),
     defaultValues: {
+      oldpassword: "",
       password: "",
       confirmPassword: "",
     },
@@ -264,13 +265,18 @@ export default function Profile() {
                   {/**Updating Password */}
                   {editpassword && (
                     <Form {...METHODS2}>
-                      <form onSubmit={METHODS2.handleSubmit(updatepassword)}>
+                      <form
+                        onSubmit={METHODS2.handleSubmit(updatepassword)}
+                        className="space-y-2 "
+                      >
                         <FormField
                           control={METHODS2.control}
-                          name="password"
+                          name="oldpassword"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Password</FormLabel>
+                              <FormLabel className="text-sm font-medium text-foreground">
+                                Old Password
+                              </FormLabel>
                               <FormControl>
                                 <Input
                                   {...field}
@@ -281,9 +287,36 @@ export default function Profile() {
                                     );
                                     field.onChange(e);
                                   }}
+                                  className=" text-foreground"
                                 />
                               </FormControl>
-                              <FormMessage />
+                              <FormMessage className="text-xs text-destructive" />
+                            </FormItem>
+                          )}
+                        />
+
+                        <FormField
+                          control={METHODS2.control}
+                          name="password"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel className="text-sm font-medium text-foreground">
+                                New Password
+                              </FormLabel>
+                              <FormControl>
+                                <Input
+                                  {...field}
+                                  onChange={(e) => {
+                                    e.target.value = e.target.value.replace(
+                                      /[^a-zA-Z0-9]/g,
+                                      "",
+                                    );
+                                    field.onChange(e);
+                                  }}
+                                  className=" text-foreground"
+                                />
+                              </FormControl>
+                              <FormMessage className="text-xs text-destructive" />
                             </FormItem>
                           )}
                         />
@@ -293,7 +326,9 @@ export default function Profile() {
                           name="confirmPassword"
                           render={({ field }) => (
                             <FormItem>
-                              <FormLabel>Confirme Passowrd</FormLabel>
+                              <FormLabel className="text-sm font-medium text-foreground">
+                                Confirme Passowrd
+                              </FormLabel>
                               <FormControl>
                                 <Input
                                   {...field}
@@ -304,9 +339,10 @@ export default function Profile() {
                                     );
                                     field.onChange(e);
                                   }}
+                                  className=" text-foreground"
                                 />
                               </FormControl>
-                              <FormMessage />
+                              <FormMessage className="text-xs text-destructive" />
                             </FormItem>
                           )}
                         />
@@ -317,7 +353,7 @@ export default function Profile() {
                             title="Cancel"
                             variant="outline"
                             className="flex-1 h-10 px-4 py-2 bg-background border-input hover:bg-secondary/10 hover:text-foreground transition-colors cursor-pointer rounded-md"
-                            onClick={() => setEditProfile((prev) => !prev)}
+                            onClick={() => setEditPassowrd((prev) => !prev)}
                           >
                             Cancel
                           </Button>
