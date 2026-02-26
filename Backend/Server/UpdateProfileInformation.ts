@@ -1,12 +1,13 @@
 "use server";
 import { UpdaterProfileInfoType } from "@/Frontend/Schemas/UpdaterProfileInfo";
 import { prisma } from "@/lib/prisma";
+import { users } from "@/lib/generated/prisma";
 
 export async function UpdateProfileInfoAction(
-  id: string,
+  user: users,
   data: UpdaterProfileInfoType,
 ) {
-  if (!id || !data) {
+  if (!user || !data) {
     return { error: "Failed to fetch" };
   }
   const { email, name } = data;
@@ -21,20 +22,20 @@ export async function UpdateProfileInfoAction(
     return { error: "Name Have btween 1 and 30 letter" };
   }
 
-  const finduser = await prisma.users.findUnique({ where: { id } });
-
-  if (!finduser) {
-    return { error: "Failed to fetch" };
-  }
-  if (finduser.email === email && finduser.name === name) {
-    return { success: "Saved Changes" };
-  }
   try {
-    const updating = await prisma.users.update({
-      where: { id: finduser.id },
-      data: { email: email.toLocaleLowerCase(), name },
+    const emailChanged = user.email !== email;
+    const nameChanged = user.name !== name;
+    if (!emailChanged && !nameChanged) {
+      return { success: "Changes Saved" };
+    }
+    await prisma.users.update({
+      where: { id: user.id },
+      data: {
+        ...(emailChanged && { email: email.toLocaleLowerCase() }),
+        ...(nameChanged && { name }),
+      },
     });
-    return { success: "Profile Updated Successfully" };
+    return { success: "Informations Updated Successfully" };
   } catch {
     return { error: "Something went rong..." };
   }

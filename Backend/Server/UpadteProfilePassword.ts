@@ -32,7 +32,7 @@ export async function UpdateProfilePasswordAction(
     return { success: "Changes Saved" };
   }
   try {
-    const result = await prisma.users.update({
+    await prisma.users.update({
       where: { id },
       data: { password: password },
     });
