@@ -11,6 +11,7 @@ CREATE TABLE users (
 CREATE TABLE expenses (
   id          TEXT PRIMARY KEY DEFAULT gen_random_uuid()::text,
   user_id     TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  name        TEXT NOT NULL,
   amount      DECIMAL(10, 2) NOT NULL,
   type        TEXT NOT NULL CHECK (type IN ('income', 'expense')),
   category    TEXT NOT NULL,
