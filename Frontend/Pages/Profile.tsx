@@ -72,6 +72,10 @@ export default function Profile() {
     METHODS.reset();
     setEditProfile((prev) => !prev);
   };
+  const buttonresethandler=()=>{
+    METHODS2.reset()
+    setEditPassowrd((prev)=>!prev)
+  }
   const UpdateProfile = async (data: UpdaterProfileInfoType) => {
     const result = await UpdateProfileInfoAction(userdata, data);
     if (result.error) {
@@ -176,12 +180,12 @@ export default function Profile() {
                   {!editprofile && !editpassword && (
                     <div className="flex flex-col sm:flex-row gap-3">
                       <Button
-                        aria-label="Rest Password"
-                        title="Rest Password"
+                        aria-label="Reset Password"
+                        title="Reset Password"
                         className="flex-1 bg-secondary text-secondary-foreground hover:bg-secondary/80 transition-colors cursor-pointer"
-                        onClick={() => setEditPassowrd((prev) => !prev)}
+                        onClick={buttonresethandler}
                       >
-                        Rest Password
+                        Reset Password
                       </Button>
 
                       <Button
