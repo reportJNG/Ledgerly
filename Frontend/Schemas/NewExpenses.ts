@@ -19,3 +19,4 @@ export const ExpensesSchema = z.object({
     .regex(/^[a-zA-Z]*$/, "Must only contain letters")
     .optional(),
 });
+export type ExpenesesType = z.infer<typeof ExpensesSchema>;

@@ -121,6 +121,13 @@ export default function Login() {
                           placeholder="Enter your password"
                           className="h-11"
                           {...field}
+                          onChange={(e) => {
+                            e.target.value = e.target.value.replace(
+                              /[^a-zA-Z0-9]/g,
+                              "",
+                            );
+                            field.onChange(e);
+                          }}
                         />
                       </FormControl>
                       <FormMessage />
