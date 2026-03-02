@@ -9,7 +9,7 @@ import {
 import { useForm } from "react-hook-form";
 import { ExpenesesType, ExpensesSchema } from "@/Frontend/Schemas/NewExpenses";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Save, SaveOff } from "lucide-react";
+import { Save, SaveOff, X } from "lucide-react";
 import { Input } from "../ui/input";
 import {
   Select,
@@ -19,7 +19,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-export default function CreateNewExpenses() {
+interface CreateExpensesprops {
+  create: () => void;
+  close: () => void;
+}
+
+export default function CreateNewExpenses({
+  create,
+  close,
+}: CreateExpensesprops) {
   const { ...METHODS } = useForm<ExpenesesType>({
     resolver: zodResolver(ExpensesSchema),
     defaultValues: {
@@ -28,10 +36,12 @@ export default function CreateNewExpenses() {
       type: "income",
       category: "",
       description: "",
+      date: new Date() ?? "yyyy-MM-dd",
     },
   });
   return (
     <Form {...METHODS}>
+      <X onClick={close} />
       {/**Overlay */}
       <form>
         <div>
@@ -52,6 +62,7 @@ export default function CreateNewExpenses() {
                 <FormControl>
                   <Input
                     type="text"
+                    placeholder="Name Your Bill..."
                     required
                     {...field}
                     onChange={(e) => {
@@ -77,6 +88,7 @@ export default function CreateNewExpenses() {
                 <Select
                   onValueChange={field.onChange}
                   defaultValue={field.value}
+                  required
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -95,14 +107,60 @@ export default function CreateNewExpenses() {
 
           <FormField
             control={METHODS.control}
-            name="name"
+            name="amount"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name Item</FormLabel>
+                <FormLabel>Amount</FormLabel>
+                <FormControl>
+                  <Input
+                    type="number"
+                    placeholder="Amount..."
+                    required
+                    {...field}
+                    onChange={(e) => {
+                      e.target.value = e.target.value.replace(/[^0-9]/g, "");
+                      field.onChange(e);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={METHODS.control}
+            name="category"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Category Item</FormLabel>
                 <FormControl>
                   <Input
                     type="text"
                     required
+                    {...field}
+                    placeholder="Category..."
+                    onChange={(e) => {
+                      e.target.value = e.target.value.replace(/[^a-zA-Z]/g, "");
+                      field.onChange(e);
+                    }}
+                  />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
+          <FormField
+            control={METHODS.control}
+            name="description"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Description</FormLabel>
+                <FormControl>
+                  <Input
+                    type="text"
+                    placeholder="What you used item for ?..."
                     {...field}
                     onChange={(e) => {
                       e.target.value = e.target.value.replace(
@@ -120,47 +178,17 @@ export default function CreateNewExpenses() {
 
           <FormField
             control={METHODS.control}
-            name="name"
+            name="date"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Name Item</FormLabel>
+                <FormLabel>Date</FormLabel>
                 <FormControl>
                   <Input
-                    type="text"
-                    required
-                    {...field}
-                    onChange={(e) => {
-                      e.target.value = e.target.value.replace(
-                        /[^a-zA-Z0-9]/g,
-                        "",
-                      );
-                      field.onChange(e);
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-
-          <FormField
-            control={METHODS.control}
-            name="name"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Name Item</FormLabel>
-                <FormControl>
-                  <Input
-                    type="text"
-                    required
-                    {...field}
-                    onChange={(e) => {
-                      e.target.value = e.target.value.replace(
-                        /[^a-zA-Z0-9]/g,
-                        "",
-                      );
-                      field.onChange(e);
-                    }}
+                    type="date"
+                    value={
+                      field.value ? field.value.toISOString().split("T")[0] : ""
+                    }
+                    onChange={(e) => field.onChange(new Date(e.target.value))}
                   />
                 </FormControl>
                 <FormMessage />
@@ -171,11 +199,15 @@ export default function CreateNewExpenses() {
 
         {/**button field */}
         <div>
-          <button type="submit" aria-label="Add" title="Add">
-            <Save />
+          <button type="submit" aria-label="Add" title="Add" onClick={create}>
+            <span>
+              <Save />
+            </span>
           </button>
-          <button aria-label="Cancel" title="Cancel">
-            <SaveOff />
+          <button aria-label="Cancel" title="Cancel" onClick={close}>
+            <span>
+              <SaveOff />
+            </span>
           </button>
         </div>
 

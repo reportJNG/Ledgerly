@@ -18,5 +18,7 @@ export const ExpensesSchema = z.object({
     .max(100)
     .regex(/^[a-zA-Z]*$/, "Must only contain letters")
     .optional(),
+
+  date: z.date().optional(),
 });
 export type ExpenesesType = z.infer<typeof ExpensesSchema>;
