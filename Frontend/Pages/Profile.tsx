@@ -39,10 +39,12 @@ import {
   UpdaterProfilePasswordType,
 } from "../Schemas/UpadaterProfilePassword";
 import { UpdateProfilePasswordAction } from "@/Backend/Server/UpadteProfilePassword";
+import { useRouter } from "next/navigation";
 
 export default function Profile() {
   const [settings, setSettings] = useState<boolean>(false);
   const [terms, setTerms] = useState<boolean>(false);
+  const routes = useRouter();
   const [userdata, setUserdata] = useState<users>({
     email: "",
     id: "",
@@ -53,12 +55,15 @@ export default function Profile() {
   useEffect(() => {
     const getdata = async () => {
       const result = await GetInfoUser();
+      if (result.error) {
+        routes.push("/");
+      }
       if (result.success) {
         setUserdata(result.success);
       }
     };
     getdata();
-  }, []);
+  }, [routes]);
 
   const [editprofile, setEditProfile] = useState<boolean>(false);
   const { ...METHODS } = useForm<UpdaterProfileInfoType>({
@@ -72,10 +77,10 @@ export default function Profile() {
     METHODS.reset();
     setEditProfile((prev) => !prev);
   };
-  const buttonresethandler=()=>{
-    METHODS2.reset()
-    setEditPassowrd((prev)=>!prev)
-  }
+  const buttonresethandler = () => {
+    METHODS2.reset();
+    setEditPassowrd((prev) => !prev);
+  };
   const UpdateProfile = async (data: UpdaterProfileInfoType) => {
     const result = await UpdateProfileInfoAction(userdata, data);
     if (result.error) {

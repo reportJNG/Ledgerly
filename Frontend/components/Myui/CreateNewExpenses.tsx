@@ -20,10 +20,14 @@ import {
 } from "@/components/ui/select";
 
 interface CreateExpensesprops {
+  idUser: string;
   close: () => void;
 }
 
-export default function CreateNewExpenses({ close }: CreateExpensesprops) {
+export default function CreateNewExpenses({
+  close,
+  idUser,
+}: CreateExpensesprops) {
   const { ...METHODS } = useForm<ExpenesesType>({
     resolver: zodResolver(ExpensesSchema),
     defaultValues: {
@@ -36,7 +40,9 @@ export default function CreateNewExpenses({ close }: CreateExpensesprops) {
     },
   });
 
-  const Creating = () => {};
+  const Creating = () => {
+    idUser += idUser;
+  };
 
   return (
     <Form {...METHODS}>
