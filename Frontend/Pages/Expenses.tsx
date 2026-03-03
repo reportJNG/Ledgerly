@@ -10,6 +10,7 @@ import { users } from "@/lib/generated/prisma";
 import { useEffect } from "react";
 import { GetInfoUser } from "@/Backend/Server/GetInfoUser";
 import { useRouter } from "next/navigation";
+import { CircleArrowLeft } from "lucide-react";
 export default function Expenses() {
   const [settings, setSettings] = useState<boolean>(false);
   const [terms, setTerms] = useState<boolean>(false);
@@ -54,6 +55,9 @@ export default function Expenses() {
             {/**all expenses*/}
             <div></div>
             {/**button creation */}
+            <button onClick={() => setNewExpenses((prev) => !prev)}>
+              <CircleArrowLeft />
+            </button>
           </>
         )}
         {NewExpenses && (
