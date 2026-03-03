@@ -17,7 +17,7 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/Frontend/components/ui/select";
 
 interface CreateExpensesprops {
   idUser: string;
