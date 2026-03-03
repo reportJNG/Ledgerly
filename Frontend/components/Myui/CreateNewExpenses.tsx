@@ -20,14 +20,10 @@ import {
 } from "@/components/ui/select";
 
 interface CreateExpensesprops {
-  create: () => void;
   close: () => void;
 }
 
-export default function CreateNewExpenses({
-  create,
-  close,
-}: CreateExpensesprops) {
+export default function CreateNewExpenses({ close }: CreateExpensesprops) {
   const { ...METHODS } = useForm<ExpenesesType>({
     resolver: zodResolver(ExpensesSchema),
     defaultValues: {
@@ -39,11 +35,14 @@ export default function CreateNewExpenses({
       date: new Date() ?? "yyyy-MM-dd",
     },
   });
+
+  const Creating = () => {};
+
   return (
     <Form {...METHODS}>
       <X onClick={close} />
       {/**Overlay */}
-      <form>
+      <form onSubmit={METHODS.handleSubmit(Creating)}>
         <div>
           {/**title */}
           <h1>Create new expenses</h1>
@@ -199,7 +198,7 @@ export default function CreateNewExpenses({
 
         {/**button field */}
         <div>
-          <button type="submit" aria-label="Add" title="Add" onClick={create}>
+          <button type="submit" aria-label="Add" title="Add">
             <span>
               <Save />
             </span>
@@ -213,7 +212,7 @@ export default function CreateNewExpenses({
 
         {/**description field */}
         <div>
-          <p>Organize and structure your data in your safe place </p>
+          <p>@2026 .Organize and structure your data in your safe place </p>
         </div>
       </form>
     </Form>
