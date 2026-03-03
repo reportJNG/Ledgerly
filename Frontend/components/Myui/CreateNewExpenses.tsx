@@ -18,6 +18,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/Frontend/components/ui/select";
+import { CreatingNewExpensesAction } from "@/Backend/Server/CreateNewExpenses";
+import { toast } from "sonner";
 
 interface CreateExpensesprops {
   idUser: string;
@@ -40,8 +42,15 @@ export default function CreateNewExpenses({
     },
   });
 
-  const Creating = () => {
-    idUser += idUser;
+  const Creating = async (data: ExpenesesType) => {
+    const result = await CreatingNewExpensesAction(idUser, data);
+    if (result?.error) {
+      toast.error(result.error);
+      METHODS.reset();
+    } else if (result?.success) {
+      toast.success(result.success);
+      METHODS.reset();
+    }
   };
 
   return (

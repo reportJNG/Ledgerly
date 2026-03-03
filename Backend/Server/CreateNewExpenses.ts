@@ -1,8 +1,11 @@
 "use server";
-import { expenses } from "@/lib/generated/prisma";
+import { ExpenesesType } from "@/Frontend/Schemas/NewExpenses";
 import { prisma } from "@/lib/prisma";
 
-export async function CreatingNewExpensesAction(id: string, item: expenses) {
+export async function CreatingNewExpensesAction(
+  id: string,
+  item: ExpenesesType,
+) {
   if (!id || !item) {
     return { error: "Failed to fetch" };
   }

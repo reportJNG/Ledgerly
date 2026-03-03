@@ -43,6 +43,7 @@ export default function Login() {
     }
     if (result.error) {
       toast.error(result.error);
+      METHODS.reset();
     } else {
       if (result.success) {
         toast.success(result.success);
