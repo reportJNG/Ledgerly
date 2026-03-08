@@ -44,7 +44,8 @@ export async function LoginAction(data: LoginType) {
     });
 
     return { success: "Connected Successfully" };
-  } catch {
-    return { error: "Failed to fetch" };
-  }
+} catch (error) {
+  console.error(error);
+  return { error: error instanceof Error ? error.message : "Failed to fetch" };
+}
 }
