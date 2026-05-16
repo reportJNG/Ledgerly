@@ -10,7 +10,8 @@ import { users } from "@/lib/generated/prisma";
 import { useEffect } from "react";
 import { GetInfoUser } from "@/Backend/Server/GetInfoUser";
 import { useRouter } from "next/navigation";
-import { CircleArrowLeft } from "lucide-react";
+import { PenSquareIcon } from "lucide-react";
+import Expense from "@/Frontend/components/Myui/Expense";
 export default function Expenses() {
   const [settings, setSettings] = useState<boolean>(false);
   const [terms, setTerms] = useState<boolean>(false);
@@ -53,10 +54,13 @@ export default function Expenses() {
             </div>
 
             {/**all expenses*/}
-            <div></div>
+            <div>
+              <h1 className="text-2xl font-bold mb-4">All Expenses</h1>
+              <Expense />
+            </div>
             {/**button creation */}
             <button onClick={() => setNewExpenses((prev) => !prev)}>
-              <CircleArrowLeft />
+              <PenSquareIcon />
             </button>
           </>
         )}

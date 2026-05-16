@@ -138,7 +138,7 @@ export default function Topbar({
                 aria-label="Help"
                 title="Help"
                 onClick={() =>
-                  window.open("https://remalihamza.vercel.app/", "_blank")
+                  window.open("https://hamzaremali.vercel.app/", "_blank")
                 }
                 className="relative hover:bg-primary/10 hover:text-primary transition-all duration-200 cursor-pointer"
               >

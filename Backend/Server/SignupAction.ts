@@ -4,6 +4,7 @@ import { SingupType } from "@/Frontend/Schemas/Signup";
 import { prisma } from "@/lib/prisma";
 import { cookies } from "next/headers";
 
+
 export async function SignupAction(data: SingupType) {
   if (!data) {
     return { error: "Failed Data" };
