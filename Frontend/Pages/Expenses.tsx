@@ -41,6 +41,8 @@ export default function Expenses() {
   const [expense, SetExpense] = useState<expenses[]>([]);
   const delexpense = (id: string, usid: string) => {};
 
+  //handling logic for searching
+  const [text, setText] = useState<string>("");
   return (
     <>
       <header>
@@ -56,7 +58,7 @@ export default function Expenses() {
           <>
             {/**search engine */}
             <div>
-              <Searchexpenses />
+              <Searchexpenses name={text} UseName={setText} />
             </div>
 
             {/**all expenses*/}
