@@ -65,7 +65,7 @@ export default function Expenses() {
   const deleting = async () => {};
   //editing new expense
   const [editing, setEditingExpense] = useState<boolean>(false);
-
+  const [oneitem, setOneItem] = useState<expenses | undefined>();
   return (
     <>
       <header>
@@ -98,6 +98,7 @@ export default function Expenses() {
                     Allexpenses.map((item) => (
                       <div key={item.id}>
                         <Expense
+                          oneitem={setOneItem}
                           item={item}
                           edit={setEditingExpense}
                           del={setDeletingExpense}
@@ -122,10 +123,20 @@ export default function Expenses() {
           <CreateNewExpenses
             close={() => setNewExpenses((prev) => !prev)}
             idUser={user.id}
+            isnew={true}
+            data={null}
           />
         )}
         {deltetingexpense && (
           <Delete close={setDeletingExpense} del={deleting} />
+        )}
+        {editing && (
+          <CreateNewExpenses
+            close={() => setEditingExpense((prev) => !prev)}
+            idUser={user.id}
+            isnew={false}
+            data={null}
+          />
         )}
       </main>
 

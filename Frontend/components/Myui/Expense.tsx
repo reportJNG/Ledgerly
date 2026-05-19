@@ -14,9 +14,10 @@ interface exp {
   item: expenses;
   edit: React.Dispatch<React.SetStateAction<boolean>>;
   del: React.Dispatch<React.SetStateAction<boolean>>;
+  oneitem: React.Dispatch<React.SetStateAction<expenses | undefined>>;
 }
 
-export default function Expense({ item, edit, del }: exp) {
+export default function Expense({ item, edit, del, oneitem }: exp) {
   if (!item) {
     return (
       <div className="bg-card text-card-foreground rounded-lg border border-dashed border-border p-6 flex items-center justify-center">
@@ -70,7 +71,10 @@ export default function Expense({ item, edit, del }: exp) {
             <Button
               variant="ghost"
               size="icon"
-              onClick={() => edit(true)}
+              onClick={() => {
+                edit(true);
+                oneitem(item);
+              }}
               className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-secondary"
               aria-label="Edit expense"
             >

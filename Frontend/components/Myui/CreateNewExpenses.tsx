@@ -21,8 +21,12 @@ import {
 import { CreatingNewExpensesAction } from "@/Backend/Server/CreateNewExpenses";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
+import { expenses } from "@/lib/generated/prisma";
+import { useEffect } from "react";
 
 interface CreateExpensesprops {
+  data: expenses | null;
+  isnew: boolean;
   idUser: string;
   close: () => void;
 }
@@ -30,6 +34,8 @@ interface CreateExpensesprops {
 export default function CreateNewExpenses({
   close,
   idUser,
+  isnew,
+  data,
 }: CreateExpensesprops) {
   const { ...METHODS } = useForm<ExpenesesType>({
     resolver: zodResolver(ExpensesSchema),
@@ -42,16 +48,33 @@ export default function CreateNewExpenses({
       date: new Date() ?? "yyyy-MM-dd",
     },
   });
-
+  useEffect(() => {
+    if (!isnew && data) {
+      METHODS.reset({
+        name: data?.name ?? "",
+        amount: Number(data.amount) || 0,
+        type: data.type as "income" | "expense",
+        category: data.category || "",
+        description: data.description || "",
+        date: (data.date || new Date()) ?? "yyyy-MM-dd",
+      });
+      return;
+    }
+  }, [isnew, data, METHODS]);
   const Creating = async (data: ExpenesesType) => {
-    const result = await CreatingNewExpensesAction(idUser, data);
-    if (result?.error) {
-      toast.error(result.error);
-      METHODS.reset();
-    } else if (result?.success) {
-      toast.success(result.success);
-      METHODS.reset();
-      close();
+    if (isnew) {
+      const result = await CreatingNewExpensesAction(idUser, data);
+      if (result?.error) {
+        toast.error(result.error);
+        METHODS.reset();
+      } else if (result?.success) {
+        toast.success(result.success);
+        METHODS.reset();
+        close();
+      }
+    } else {
+      if (data !== null) {
+      }
     }
   };
 
@@ -75,7 +98,7 @@ export default function CreateNewExpenses({
           >
             <div className="space-y-2">
               <h1 className="text-3xl font-bold tracking-tight bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                Create New Transaction
+                {isnew ? "Create New Transaction" : "Edit Transaction"}
               </h1>
               <p className="text-sm text-muted-foreground">
                 Keep track of your finances by adding your income or expenses
