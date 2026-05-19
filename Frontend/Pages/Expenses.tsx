@@ -19,8 +19,8 @@ export default function Expenses() {
   const [NewExpenses, setNewExpenses] = useState<boolean>(false);
   const routes = useRouter();
   const [hiddenitems, SetHiddenitems] = useState<boolean>(false);
-  const editexpense = (id: string, usid: string) => {};
-
+  //handling logic for searching
+  const [text, setText] = useState<string>("");
   const [user, setUser] = useState<users>({
     id: "",
     name: "",
@@ -39,11 +39,12 @@ export default function Expenses() {
     call();
   }, [routes]);
   //logic to handle the each expene
-  const [expense, SetExpense] = useState<expenses[]>([]);
-  const delexpense = (id: string, usid: string) => {};
+  const [Allexpenses, SetAllExpenses] = useState<expenses[]>([]);
+  //deleting the expenses
+  const [deltetingexpense, setDeletingExpense] = useState<boolean>(false);
+  //editing new expense
+  const [editing, setEditingExpense] = useState<boolean>(false);
 
-  //handling logic for searching
-  const [text, setText] = useState<string>("");
   return (
     <>
       <header>
@@ -70,13 +71,13 @@ export default function Expenses() {
                   {hiddenitems ? <EyeClosedIcon /> : <Eye />}
                 </button>
               </div>
-              {expense &&
-                expense.map((item) => (
+              {Allexpenses &&
+                Allexpenses.map((item) => (
                   <div key={item.id}>
                     <Expense
                       item={item}
-                      edit={() => editexpense(item.id, item.user_id)}
-                      del={() => delexpense(item.id, item.user_id)}
+                      edit={setEditingExpense}
+                      del={setDeletingExpense}
                     />
                   </div>
                 ))}

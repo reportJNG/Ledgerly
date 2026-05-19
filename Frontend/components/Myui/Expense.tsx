@@ -7,11 +7,12 @@ import {
   Trash2,
 } from "lucide-react";
 import { expenses } from "@/lib/generated/prisma";
+import React from "react";
 
 interface exp {
   item: expenses;
-  edit: (id: string, i: string) => void;
-  del: (id: string, i: string) => void;
+  edit: React.Dispatch<React.SetStateAction<boolean>>;
+  del: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function Expense({ item, edit, del }: exp) {
@@ -46,14 +47,14 @@ export default function Expense({ item, edit, del }: exp) {
 
             <div className="flex items-center gap-1">
               <button
-                onClick={() => edit(item.id, item.name)}
+                onClick={() => edit((prev) => !prev)}
                 className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-secondary hover:text-foreground"
                 aria-label="Edit expense"
               >
                 <EditIcon className="h-4 w-4" />
               </button>
               <button
-                onClick={() => del(item.id, item.name)}
+                onClick={() => del((prev) => !prev)}
                 className="rounded-md p-2 text-muted-foreground transition-colors hover:bg-destructive/10 hover:text-destructive"
                 aria-label="Delete expense"
               >
