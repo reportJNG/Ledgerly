@@ -12,6 +12,9 @@ import { GetInfoUser } from "@/Backend/Server/GetInfoUser";
 import { useRouter } from "next/navigation";
 import { Eye, EyeClosedIcon, PenSquareIcon } from "lucide-react";
 import Expense from "@/Frontend/components/Myui/Expense";
+import { GetAllExpenses } from "@/Backend/Server/GetAllExpenses";
+import { Button } from "../components/ui/button";
+import { toast } from "sonner";
 export default function Expenses() {
   const [settings, setSettings] = useState<boolean>(false);
   const [terms, setTerms] = useState<boolean>(false);
@@ -38,8 +41,24 @@ export default function Expenses() {
     };
     call();
   }, [routes]);
-  //logic to handle the each expene
+  //logic to handle the all expene
   const [Allexpenses, SetAllExpenses] = useState<expenses[]>([]);
+  useEffect(() => {
+    if (!user.id) return;
+    const timeouts = setTimeout(async () => {
+      try {
+        const data = await GetAllExpenses(user?.id, text);
+        if (!data) {
+          toast.error("Failed to load expenses");
+        }
+        SetAllExpenses(data);
+      } catch {
+        toast.error("Failed to load expenses");
+      }
+    }, 3000);
+    return () => clearTimeout(timeouts);
+  }, [text, user?.id]);
+
   //deleting the expenses
   const [deltetingexpense, setDeletingExpense] = useState<boolean>(false);
   //editing new expense
@@ -67,25 +86,34 @@ export default function Expenses() {
             <div>
               <h1 className="text-2xl font-bold mb-4">All Expenses</h1>
               <div>
-                <button onClick={() => SetHiddenitems((prev) => !prev)}>
+                <Button onClick={() => SetHiddenitems((prev) => !prev)}>
                   {hiddenitems ? <EyeClosedIcon /> : <Eye />}
-                </button>
+                </Button>
               </div>
-              {Allexpenses &&
-                Allexpenses.map((item) => (
-                  <div key={item.id}>
-                    <Expense
-                      item={item}
-                      edit={setEditingExpense}
-                      del={setDeletingExpense}
-                    />
-                  </div>
-                ))}
+              {!hiddenitems && (
+                <>
+                  {Allexpenses &&
+                    Allexpenses.map((item) => (
+                      <div key={item.id}>
+                        <Expense
+                          item={item}
+                          edit={setEditingExpense}
+                          del={setDeletingExpense}
+                        />
+                      </div>
+                    ))}
+                </>
+              )}
+              {!hiddenitems && (
+                <div>
+                  <strong>Closed Eyes</strong>
+                </div>
+              )}
             </div>
             {/**button creation this should be right stick in top for ui clean  */}
-            <button onClick={() => setNewExpenses((prev) => !prev)}>
+            <Button onClick={() => setNewExpenses((prev) => !prev)}>
               <PenSquareIcon />
-            </button>
+            </Button>
           </>
         )}
         {NewExpenses && (
