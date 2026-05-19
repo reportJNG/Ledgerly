@@ -15,6 +15,7 @@ import Expense from "@/Frontend/components/Myui/Expense";
 import { GetAllExpenses } from "@/Backend/Server/GetAllExpenses";
 import { Button } from "../components/ui/button";
 import { toast } from "sonner";
+import Delete from "../components/Myui/Delete";
 export default function Expenses() {
   const [settings, setSettings] = useState<boolean>(false);
   const [terms, setTerms] = useState<boolean>(false);
@@ -61,6 +62,7 @@ export default function Expenses() {
 
   //deleting the expenses
   const [deltetingexpense, setDeletingExpense] = useState<boolean>(false);
+  const deleting = async () => {};
   //editing new expense
   const [editing, setEditingExpense] = useState<boolean>(false);
 
@@ -121,6 +123,9 @@ export default function Expenses() {
             close={() => setNewExpenses((prev) => !prev)}
             idUser={user.id}
           />
+        )}
+        {deltetingexpense && (
+          <Delete close={setDeletingExpense} del={deleting} />
         )}
       </main>
 
