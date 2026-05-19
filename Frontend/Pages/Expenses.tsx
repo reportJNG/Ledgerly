@@ -15,6 +15,7 @@ import Expense from "@/Frontend/components/Myui/Expense";
 export default function Expenses() {
   const [settings, setSettings] = useState<boolean>(false);
   const [terms, setTerms] = useState<boolean>(false);
+  //create new expenses here
   const [NewExpenses, setNewExpenses] = useState<boolean>(false);
   const routes = useRouter();
   const [hiddenitems, SetHiddenitems] = useState<boolean>(false);
@@ -80,7 +81,7 @@ export default function Expenses() {
                   </div>
                 ))}
             </div>
-            {/**button creation */}
+            {/**button creation this should be right stick in top for ui clean  */}
             <button onClick={() => setNewExpenses((prev) => !prev)}>
               <PenSquareIcon />
             </button>
