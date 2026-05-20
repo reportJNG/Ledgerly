@@ -10,7 +10,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../components/ui/select";
-import { Search, Wallet, HandCoins, TrendingDown } from "lucide-react";
+import {
+  Search,
+  Wallet,
+  HandCoins,
+  TrendingDown,
+  TrendingUp,
+} from "lucide-react";
 import { Button } from "../components/ui/button";
 import {
   Card,
@@ -25,7 +31,8 @@ import { users } from "@/lib/generated/prisma";
 import { GetInfoUser } from "@/Backend/Server/GetInfoUser";
 import Settings from "../components/Myui/Settings";
 import Terms from "../components/Myui/Terms";
-export default function Dashborad() {
+
+export default function Dashboard() {
   const routes = useRouter();
   const [settings, setSettings] = useState<boolean>(false);
   const [terms, setTerms] = useState<boolean>(false);
@@ -36,6 +43,7 @@ export default function Dashborad() {
     password: "",
     created_at: null,
   });
+
   useEffect(() => {
     const call = async () => {
       const result = await GetInfoUser();
@@ -47,8 +55,6 @@ export default function Dashborad() {
     call();
   }, [routes]);
 
-  //pre loaded data
-
   const [info, setInfo] = useState<{
     profit: number;
     moins: number;
@@ -59,7 +65,6 @@ export default function Dashborad() {
     plus: 0,
   });
 
-  //select options
   const [selectoption, setSelectoption] = useState<{
     date: "1d" | "3d" | "7d" | "1m";
     type: "income" | "expense";
@@ -68,132 +73,183 @@ export default function Dashborad() {
     type: "income",
   });
 
-  //here to grab data
-
   useEffect(() => {
     const call = async () => {
       const data = await Getreprot(selectoption.date, user.id);
-
       setInfo((prev) => ({
         ...prev,
-        plus: Number(data?.data?.all),
-        moins: Number(data?.data?.loss),
-        profit: Number(data?.data?.profit),
+        plus: Number(data?.data?.all) || 0,
+        moins: Number(data?.data?.loss) || 0,
+        profit: Number(data?.data?.profit) || 0,
       }));
     };
     call();
   }, [selectoption, user.id]);
 
   return (
-    <>
-      <header>
+    <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <Topbar
           closeSettings={() => setSettings((prev) => !prev)}
           closeTerms={() => setTerms((prev) => !prev)}
           active="Dashboard"
         />
       </header>
-      <div>
-        {/**top */}
-        <div>
-          <Select
-            value={selectoption.date}
-            onValueChange={(value) =>
-              setSelectoption((prev) => ({
-                ...prev,
-                date: value as "1d" | "3d" | "7d" | "1m",
-              }))
-            }
-          >
-            <SelectTrigger>
-              <SelectValue placeholder="Date" />
-            </SelectTrigger>
 
-            <SelectContent>
-              <SelectItem value="1d" title="1 day">
-                <strong>1 D</strong>
-              </SelectItem>
-              <SelectItem value="3d" title="3 days">
-                <strong>3 D</strong>
-              </SelectItem>
-              <SelectItem value="7d" title="7 days">
-                <strong>7 J</strong>
-              </SelectItem>
-              <SelectItem value="1m" title="1 month">
-                <strong>1 M</strong>
-              </SelectItem>
-            </SelectContent>
-          </Select>
+      {/* Main Content */}
+      <main className="container mx-auto max-w-6xl px-4 py-8">
+        <div className="space-y-8">
+          {/* Top Section - Header & Filter */}
+          <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            <div>
+              <h1 className="text-3xl font-bold text-foreground tracking-tight">
+                Dashboard
+              </h1>
+              <p className="text-sm text-muted-foreground mt-1">
+                Overview of your financial activity
+              </p>
+            </div>
+            <div className="w-full sm:w-[180px]">
+              <Select
+                value={selectoption.date}
+                onValueChange={(value) =>
+                  setSelectoption((prev) => ({
+                    ...prev,
+                    date: value as "1d" | "3d" | "7d" | "1m",
+                  }))
+                }
+              >
+                <SelectTrigger className="w-full">
+                  <SelectValue placeholder="Select period" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="1d">
+                    <span className="font-medium">Today</span>
+                  </SelectItem>
+                  <SelectItem value="3d">
+                    <span className="font-medium">Last 3 Days</span>
+                  </SelectItem>
+                  <SelectItem value="7d">
+                    <span className="font-medium">Last Week</span>
+                  </SelectItem>
+                  <SelectItem value="1m">
+                    <span className="font-medium">Last Month</span>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+          </div>
+
+          {/* Stats Cards */}
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            {/* Revenue Card */}
+            <Card className="border-border bg-card hover:shadow-md transition-shadow">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  Total Revenue
+                </CardTitle>
+                <div className="rounded-lg bg-emerald-500/10 p-2">
+                  <HandCoins className="h-4 w-4 text-emerald-500 dark:text-emerald-400" />
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center gap-2">
+                  <div className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
+                    ${info.plus.toFixed(2)}
+                  </div>
+                  <TrendingUp className="h-4 w-4 text-emerald-500" />
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  +{((info.plus / (info.profit || 1)) * 100).toFixed(1)}% of
+                  profit
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Lost Card */}
+            <Card className="border-border bg-card hover:shadow-md transition-shadow">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  Total Expenses
+                </CardTitle>
+                <div className="rounded-lg bg-red-500/10 p-2">
+                  <TrendingDown className="h-4 w-4 text-red-500 dark:text-red-400" />
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center gap-2">
+                  <div className="text-2xl font-bold text-red-600 dark:text-red-400">
+                    ${info.moins.toFixed(2)}
+                  </div>
+                  <TrendingDown className="h-4 w-4 text-red-500" />
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  -{((info.moins / (info.plus || 1)) * 100).toFixed(1)}% of
+                  revenue
+                </p>
+              </CardContent>
+            </Card>
+
+            {/* Profit Card */}
+            <Card className="border-border bg-card hover:shadow-md transition-shadow sm:col-span-2 lg:col-span-1">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">
+                  Net Profit
+                </CardTitle>
+                <div className="rounded-lg bg-primary/10 p-2">
+                  <Wallet className="h-4 w-4 text-primary" />
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="flex items-center gap-2">
+                  <div
+                    className={`text-2xl font-bold ${
+                      info.profit >= 0
+                        ? "text-emerald-600 dark:text-emerald-400"
+                        : "text-red-600 dark:text-red-400"
+                    }`}
+                  >
+                    ${info.profit.toFixed(2)}
+                  </div>
+                  {info.profit >= 0 ? (
+                    <TrendingUp className="h-4 w-4 text-emerald-500" />
+                  ) : (
+                    <TrendingDown className="h-4 w-4 text-red-500" />
+                  )}
+                </div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  {info.profit >= 0 ? "Net positive" : "Net negative"} for this
+                  period
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+
+          {/* Table Section - Placeholder */}
+          <div className="rounded-lg border border-border bg-card p-8">
+            <div className="flex flex-col items-center justify-center text-center">
+              <Search className="h-12 w-12 text-muted-foreground mb-4" />
+              <h3 className="text-lg font-semibold text-foreground mb-2">
+                Detailed Transactions
+              </h3>
+              <p className="text-sm text-muted-foreground max-w-md">
+                Your transaction history will appear here. Use the filters above
+                to view specific periods.
+              </p>
+            </div>
+          </div>
         </div>
-        {/**body 3 cards */}
+      </main>
 
-        <div>
-          <Card>
-            <CardHeader>
-              <CardTitle>Revenu</CardTitle>
-            </CardHeader>
-
-            <CardContent>
-              <div>
-                <div>
-                  <strong>{info.plus || 0}</strong>
-                </div>
-                <HandCoins />
-              </div>
-            </CardContent>
-
-            <CardFooter>
-              <CardDescription></CardDescription>
-            </CardFooter>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Lost</CardTitle>
-            </CardHeader>
-
-            <CardContent>
-              <div>
-                <div>
-                  <strong>{info.moins || 0}</strong>
-                </div>
-                <TrendingDown />
-              </div>
-            </CardContent>
-
-            <CardFooter>
-              <CardDescription></CardDescription>
-            </CardFooter>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle>Profit</CardTitle>
-            </CardHeader>
-
-            <CardContent>
-              <div>
-                <div>
-                  <strong>{info.profit || 0}</strong>
-                </div>
-                <Wallet />
-              </div>
-            </CardContent>
-
-            <CardFooter>
-              <CardDescription></CardDescription>
-            </CardFooter>
-          </Card>
-        </div>
-        {/**table */}
-        <div></div>
-      </div>
-      <footer>
+      {/* Footer */}
+      <footer className="border-t border-border mt-8">
         <About />
       </footer>
+
       {/* Modals */}
       {settings && <Settings close={() => setSettings(false)} />}
       {terms && <Terms close={() => setTerms(false)} />}
-    </>
+    </div>
   );
 }
