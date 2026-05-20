@@ -3,15 +3,14 @@
 import { expenses } from "@/lib/generated/prisma";
 import { prisma } from "@/lib/prisma";
 
-type money = "income" | "expenses";
 type dateM = "1d" | "3d" | "7d" | "1m";
 type CalcResult = {
   all: number;
   profit: number;
   loss: number;
 };
-export async function Getreprot(type: money, dates: dateM, id: string) {
-  if (!type || !dates || !id) return { error: "faild to fetch" };
+export async function Getreprot(dates: dateM, id: string) {
+  if (!dates || !id) return { error: "faild to fetch" };
   const data = await getexpensesdate(dates, id);
 
   if (!data || data === null) {
@@ -43,7 +42,7 @@ function calc(dat: expenses[]): CalcResult | undefined {
     if (dat[i].type === "income") {
       callu.all += Number(dat[i].amount);
     }
-    if (dat[i].type === "expenses") {
+    if (dat[i].type === "expense") {
       callu.loss += Number(dat[i].amount);
     }
   }
