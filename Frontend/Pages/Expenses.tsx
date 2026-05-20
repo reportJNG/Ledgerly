@@ -56,7 +56,7 @@ export default function Expenses() {
       } catch {
         toast.error("Failed to load expenses");
       }
-    }, 3000);
+    }, 1000);
     return () => clearTimeout(timeouts);
   }, [text, user?.id]);
 

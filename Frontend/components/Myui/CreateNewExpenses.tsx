@@ -22,7 +22,7 @@ import { CreatingNewExpensesAction } from "@/Backend/Server/CreateNewExpenses";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 import { expenses } from "@/lib/generated/prisma";
-
+import { Editedexpenses } from "@/Backend/Server/EditedExpenses";
 interface CreateExpensesprops {
   data: expenses | null;
   isnew: boolean;
@@ -47,7 +47,7 @@ export default function CreateNewExpenses({
       date: (data?.date || new Date()) ?? "yyyy-MM-dd",
     },
   });
-
+  const id = data?.id;
   const Creating = async (data: ExpenesesType) => {
     if (isnew) {
       const result = await CreatingNewExpensesAction(idUser, data);
@@ -58,8 +58,27 @@ export default function CreateNewExpenses({
         toast.success(result.success);
         METHODS.reset();
         close();
+        setTimeout(() => {
+          window.navigation.reload();
+        }, 2000);
       }
     } else {
+      const result = await Editedexpenses(data, idUser, id ?? "");
+      if (result?.error) {
+        toast.error(result.error);
+        METHODS.reset();
+        close();
+        setTimeout(() => {
+          window.navigation.reload();
+        }, 2000);
+      } else if (result?.success) {
+        toast.success(result.success);
+        METHODS.reset();
+        close();
+        setTimeout(() => {
+          window.navigation.reload();
+        }, 2000);
+      }
     }
   };
 

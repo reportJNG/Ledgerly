@@ -1,21 +1,25 @@
 "use server";
 
-import { expenses } from "@/lib/generated/prisma";
+import { ExpenesesType } from "@/Frontend/Schemas/NewExpenses";
 import { prisma } from "@/lib/prisma";
-export async function Editedexpenses(item: expenses) {
+export async function Editedexpenses(
+  item: ExpenesesType,
+  id: string,
+  itemid: string,
+) {
   if (!item) return { error: "Failed to Fetch data" };
   try {
     const updates = await prisma.expenses.updateMany({
       where: {
-        user_id: item.user_id,
-        id: item.id,
+        user_id: id,
+        id: itemid,
       },
       data: item,
     });
     if (updates.count === 0) {
-      return { success: "Successfuly Updated" };
-    } else {
       return { error: "Failed to Fetch data" };
+    } else {
+      return { success: "Successfuly Updated" };
     }
   } catch {
     return { error: "Failed to Fetch data" };
