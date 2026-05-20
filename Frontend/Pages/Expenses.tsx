@@ -69,7 +69,7 @@ export default function Expenses() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <header className="sticky top-0 z-40 border-b border-border bg-background/95 backdrop-blur supports-backdrop-filter:bg-background/60">
         <Topbar
           closeSettings={() => setSettings((prev) => !prev)}
           closeTerms={() => setTerms((prev) => !prev)}
@@ -88,7 +88,7 @@ export default function Expenses() {
               </div>
               <Button
                 onClick={() => setNewExpenses(true)}
-                className="gap-2 shadow-lg hover:shadow-xl transition-shadow"
+                className="gap-2 shadow-lg hover:shadow-xl transition-shadow cursor-pointer"
                 size="lg"
               >
                 <PenSquareIcon className="h-5 w-5" />

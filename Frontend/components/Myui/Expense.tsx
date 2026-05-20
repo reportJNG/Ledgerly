@@ -75,7 +75,7 @@ export default function Expense({ item, edit, del, oneitem }: exp) {
                 edit(true);
                 oneitem(item);
               }}
-              className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-secondary"
+              className="h-8 w-8 text-muted-foreground hover:text-foreground hover:bg-secondary cursor-pointer"
               aria-label="Edit expense"
             >
               <EditIcon className="h-4 w-4" />
@@ -84,7 +84,7 @@ export default function Expense({ item, edit, del, oneitem }: exp) {
               variant="ghost"
               size="icon"
               onClick={() => del(true)}
-              className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+              className="h-8 w-8 text-muted-foreground hover:text-destructive hover:bg-destructive/10 cursor-pointer"
               aria-label="Delete expense"
             >
               <Trash2 className="h-4 w-4" />
