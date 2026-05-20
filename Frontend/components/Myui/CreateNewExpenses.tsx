@@ -22,7 +22,6 @@ import { CreatingNewExpensesAction } from "@/Backend/Server/CreateNewExpenses";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
 import { expenses } from "@/lib/generated/prisma";
-import { useEffect } from "react";
 
 interface CreateExpensesprops {
   data: expenses | null;
@@ -40,27 +39,15 @@ export default function CreateNewExpenses({
   const { ...METHODS } = useForm<ExpenesesType>({
     resolver: zodResolver(ExpensesSchema),
     defaultValues: {
-      name: "",
-      amount: 0,
-      type: "income",
-      category: "",
-      description: "",
-      date: new Date() ?? "yyyy-MM-dd",
+      name: data?.name ?? "",
+      amount: Number(data?.amount) || 0,
+      type: data?.type as "income" | "expense",
+      category: data?.category || "",
+      description: data?.description || "",
+      date: (data?.date || new Date()) ?? "yyyy-MM-dd",
     },
   });
-  useEffect(() => {
-    if (!isnew && data) {
-      METHODS.reset({
-        name: data?.name ?? "",
-        amount: Number(data.amount) || 0,
-        type: data.type as "income" | "expense",
-        category: data.category || "",
-        description: data.description || "",
-        date: (data.date || new Date()) ?? "yyyy-MM-dd",
-      });
-      return;
-    }
-  }, [isnew, data, METHODS]);
+
   const Creating = async (data: ExpenesesType) => {
     if (isnew) {
       const result = await CreatingNewExpensesAction(idUser, data);

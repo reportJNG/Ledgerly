@@ -135,7 +135,7 @@ export default function Expenses() {
             close={() => setEditingExpense((prev) => !prev)}
             idUser={user.id}
             isnew={false}
-            data={null}
+            data={oneitem || null}
           />
         )}
       </main>
