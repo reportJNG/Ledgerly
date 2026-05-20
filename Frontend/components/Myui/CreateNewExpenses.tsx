@@ -60,8 +60,6 @@ export default function CreateNewExpenses({
         close();
       }
     } else {
-      if (data !== null) {
-      }
     }
   };
 
