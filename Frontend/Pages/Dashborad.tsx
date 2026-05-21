@@ -225,20 +225,6 @@ export default function Dashboard() {
               </CardContent>
             </Card>
           </div>
-
-          {/* Table Section - Placeholder */}
-          <div className="rounded-lg border border-border bg-card p-8">
-            <div className="flex flex-col items-center justify-center text-center">
-              <Search className="h-12 w-12 text-muted-foreground mb-4" />
-              <h3 className="text-lg font-semibold text-foreground mb-2">
-                Detailed Transactions
-              </h3>
-              <p className="text-sm text-muted-foreground max-w-md">
-                Your transaction history will appear here. Use the filters above
-                to view specific periods.
-              </p>
-            </div>
-          </div>
         </div>
       </main>
 
