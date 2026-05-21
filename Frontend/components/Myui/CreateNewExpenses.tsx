@@ -59,7 +59,7 @@ export default function CreateNewExpenses({
         METHODS.reset();
         close();
         setTimeout(() => {
-          window.navigation.reload();
+          window.location.reload();
         }, 2000);
       }
     } else {
@@ -69,14 +69,14 @@ export default function CreateNewExpenses({
         METHODS.reset();
         close();
         setTimeout(() => {
-          window.navigation.reload();
+          window.location.reload();
         }, 2000);
       } else if (result?.success) {
         toast.success(result.success);
         METHODS.reset();
         close();
         setTimeout(() => {
-          window.navigation.reload();
+          window.location.reload();
         }, 2000);
       }
     }
